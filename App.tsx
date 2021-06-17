@@ -1,4 +1,5 @@
 import React from 'react';
+import * as SQLite from 'expo-sqlite';
 
 // FOR NAVIGATION
 import { NavigationContainer }      from '@react-navigation/native';
@@ -8,7 +9,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // LOCAL
 import HomeScreen          from './src/Screens/HomeScreen';
 import CurrentStockScreen  from './src/Screens/CurrentStockScreen';
+import IcecreamScreen      from './src/Screens/IcecreamScreen';
 
+// DATABASE GLOBAL INSTANCE
+global.db = SQLite.openDatabase('ShopDatabase.db')
+
+
+/*
+ * TAB AND STACK
+ * Navigation Configuration 
+ */
 
 const HomeStack = createStackNavigator();
 
@@ -17,7 +27,7 @@ function HomeStackScreen(){
     <HomeStack.Navigator
       screenOptions={{ headerTitleAlign : 'center', 
                        headerStyle : { height : 60},
-                       title : 'Icrecream Tracker'
+                       title : 'Sale Tracker'
                     }}
     >
       <HomeStack.Screen 
@@ -34,37 +44,40 @@ function CurrentStockStackScreen(){
     <CurrentStockStack.Navigator 
       screenOptions={{ headerTitleAlign : 'center', 
                        headerStyle : { height : 60},
-                       title : 'CurrentStocks'
+                       title : 'Current Stock'
 
                     }}
     >
       <CurrentStockStack.Screen 
         name='CurrentStocks' 
         component={CurrentStockScreen} />
-    </CurrentStockStack.Navigator>
+      </CurrentStockStack.Navigator>
   )
 }
 
-const Tab   = createBottomTabNavigator()
+const IcecreamStack = createStackNavigator();
 
+function IcecreamStackScreen(){
+  return (
+    <IcecreamStack.Navigator
+      screenOptions={{ headerTitleAlign : 'center', 
+                       headerStyle : { height : 60},
+                       title : 'Icrecream List'
+                    }}
+    >
+      <IcecreamStack.Screen 
+        name='Icecream' 
+        component={IcecreamScreen} />
+      </IcecreamStack.Navigator>
+  )
+}
+const Tab   = createBottomTabNavigator()
 
 export default () => {
 
-  /*
-  useEffect( ()=>{
-     * Execute only once
-     * at the starting of app
-    createPocket()
-    createCredit()
-    createSource()
-
-  },[]) 
-
-  */
-
-
   return (
     <NavigationContainer>
+
       <Tab.Navigator
         tabBarOptions={{
           activeTintColor : 'tomato',
@@ -82,8 +95,10 @@ export default () => {
         }}
 	  >
         <Tab.Screen name='Home'         component={ HomeStackScreen } />
-        <Tab.Screen name='CurrentStock' component={ CurrentStockStackScreen } />
+        <Tab.Screen name='Stocks' component={ CurrentStockStackScreen } />
+        <Tab.Screen name='Icecream'     component={ IcecreamStackScreen } />
       </Tab.Navigator>
+
     </NavigationContainer>
   )
 };
