@@ -1,13 +1,16 @@
 import React,{useEffect}  from 'react';
-import {createIcecream} from '../Database/StarterFunction';
+import { createIcecream, 
+         createStock } from '../Database/StarterFunction';
 
 import { View, 
          Text,
          StyleSheet } from 'react-native';
+
 export default function HomeScreen() {
 
   useEffect( ()=>{
     createIcecream()
+    createStock()
   },[])
 
   return(

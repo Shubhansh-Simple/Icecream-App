@@ -18,6 +18,27 @@ export const icecream = {
                                                'per_box_piece, '+
                                                'supplier_commission ) '+
                                                'VALUES(?,?,?,?);',
+  readIcecreamQuery : 'SELECT * FROM Icecream ORDER BY per_piece_price ;'
+
+}
+
+export const stock = {
+
+  createStockQuery : 'CREATE TABLE IF NOT EXISTS "Stock" (' +
+    '"id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, '+
+    '"total_piece" smallint unsigned NOT NULL CHECK ("total_piece" >= 0), '+
+    '"icecream_id" integer NOT NULL REFERENCES "Icecream" '+
+      '("id") DEFERRABLE INITIALLY DEFERRED );',
+
+  readStockQuery : 'SELECT icecream_name, per_piece_price, '+
+                   'per_box_piece, icecream_id, total_piece '+
+                   'FROM STOCK JOIN ICECREAM ON '+
+                   'Stock.icecream_id=Icecream.id '+
+                   'WHERE total_piece > 0 '+
+                   'ORDER BY total_piece ;',
+
+  insertStockQuery : 'INSERT INTO Stock( icecream_id, total_piece ) '+
+                     'VALUES(?,?); ',
 }
 
 

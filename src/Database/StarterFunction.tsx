@@ -1,5 +1,5 @@
-import React from 'react';
-import {icecream} from './Queries';
+//import React from 'react';
+import {icecream,stock} from './Queries';
 
 export default function queryExecutor( sqlQuery:string, 
                               argument : null | Array<any>, 
@@ -37,4 +37,11 @@ export function createIcecream(){
                )
 }
 
+export function createStock(){
+  queryExecutor( stock.createStockQuery,
+                 null,
+                 'Stock-C',
+                 false,
+               )
+}
 
