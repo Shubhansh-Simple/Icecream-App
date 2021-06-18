@@ -44,7 +44,7 @@ function CurrentStockStackScreen(){
     <CurrentStockStack.Navigator 
       screenOptions={{ headerTitleAlign : 'center', 
                        headerStyle : { height : 60},
-                       title : 'Current Stock'
+                       title : 'Current Icecream Stock'
 
                     }}
     >
@@ -62,7 +62,7 @@ function IcecreamStackScreen(){
     <IcecreamStack.Navigator
       screenOptions={{ headerTitleAlign : 'center', 
                        headerStyle : { height : 60},
-                       title : 'Icrecream List'
+                       title : 'Icrecream Varieties'
                     }}
     >
       <IcecreamStack.Screen 

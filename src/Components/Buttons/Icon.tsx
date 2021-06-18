@@ -7,11 +7,11 @@ import { View,
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Icon({ iconName,
-                                         iconSize,
-                                         color,
-                                         bgCircleColor,
-                                         callBack,
-                                      }){
+                               iconSize,
+                               color,
+                               bgCircleColor,
+                               callBack,
+                            }){
   return (
     <TouchableOpacity 
       onPress={()=>callBack()}>
@@ -29,7 +29,7 @@ export default function Icon({ iconName,
 const styles = StyleSheet.create({
 
   iconStyle : {
-    padding : 4,
+    padding : 5,
     borderRadius : 50,
   },
 
