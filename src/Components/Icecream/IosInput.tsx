@@ -4,15 +4,13 @@ import { View,
          Text,
          Modal,
          TextInput,
-         TouchableOpacity,
          TouchableWithoutFeedback,
          StyleSheet } from 'react-native';
 
 // LOCAL
-import {BlackBackground} from '../BlackBackground';
-import commonStyle       from '../../Styles/commonStyle';
-
-import IosInputButton from '../Icecream/IosInputButton';
+import {BlackBackground}  from '../BlackBackground';
+import commonStyle        from '../../Styles/commonStyle';
+import CancelSubmitButton from '../Buttons/CancelSubmitButton';
 
 export default function IosInput({ title,
                                    description,
@@ -24,9 +22,9 @@ export default function IosInput({ title,
                                 }){
 
   const [ icecreamInput, setIcecreamInput  ]       = useState('')
-  const [ perPiecePrice, setPerPiecePrice ]        = useState()
-  const [ perBoxPieces, setPerBoxPieces ]          = useState()
-  const [ supplierCommision, setSupplierCommision] = useState()
+  const [ perPiecePrice, setPerPiecePrice ]        = useState('')
+  const [ perBoxPieces, setPerBoxPieces ]          = useState('')
+  const [ supplierCommision, setSupplierCommision] = useState('')
 
   useEffect( () => {
     /*
@@ -51,20 +49,20 @@ export default function IosInput({ title,
         visible       ={visible}
         animationType ='slide'
         transparent   ={true}
-        onRequestClose={ ()=>{ setVisible(false) } }
+        onRequestClose={ ()=>setVisible(false) }
       >
         <TouchableWithoutFeedback
           onPressOut={ ()=>setVisible(false) }
         >
-          <View style={ styles.modalContainer }>
+          <View style={ commonStyle.modalInputContainer }>
 
-            <View style={ styles.modalBackground }>
+            <View style={ commonStyle.modalInputBackground }>
 
-              <Text style={ styles.modalTitle} >
+              <Text style={ commonStyle.modalInputTitle} >
                 {title}
               </Text>
 
-              <Text style={ styles.modalDescription} >
+              <Text style={ commonStyle.modalInputDescription} >
                 ({description})
               </Text>
 
@@ -77,7 +75,7 @@ export default function IosInput({ title,
                 style={ styles.modalIcecreamInput } 
               />
   
-              {/* LINE CONTAINER */}
+              {/* HORIZONTAL LINE CONTAINER */}
               <View style={ commonStyle.lineContainer }>
                 <TextInput
                   placeholder = 'Per Piece Price '
@@ -87,23 +85,40 @@ export default function IosInput({ title,
                   value={ perPiecePrice }
                   style={ styles.modalIcecreamInput } 
                 />
+                <Text style={ styles.unitTag }>
+                  Rs
+                </Text>
+
                 <TextInput
-                  placeholder = 'Per Box Piece'
+                  placeholder = 'Total Pieces'
                   placeholderTextColor='#505752'
                   keyboardType='numeric'
                   onChangeText={ inputValue=>setPerBoxPieces(inputValue) }
                   value={ perBoxPieces }
                   style={ styles.modalIcecreamInput } 
                 />
+                <Text style={ styles.unitTag }>
+                  Piece
+                </Text>
+
               </View>
-              <TextInput
-                placeholder = 'Supplier Commission'
-                placeholderTextColor='#505752'
-                keyboardType='numeric'
-                onChangeText={ inputValue=>setSupplierCommision(inputValue) }
-                value={ supplierCommision }
-                style={ styles.modalIcecreamInput } 
-              />
+
+              <View style={{ flexDirection : 'row' }}>
+
+                <TextInput
+                  placeholder = 'Supplier Commission'
+                  placeholderTextColor='#505752'
+                  keyboardType='numeric'
+                  onChangeText={
+                          inputValue=>setSupplierCommision(inputValue) 
+                  }
+                  value={ supplierCommision }
+                  style={ styles.modalIcecreamInput } 
+                />
+                <Text style={ styles.unitTag }>
+                  Pay To Supplier
+                </Text>
+              </View>
               
               {/*CONDITIONAL CODE*/} 
               { icecreamInput.length > 20
@@ -113,50 +128,18 @@ export default function IosInput({ title,
                 </Text>
               }
 
-              <View style={{ 
-                flexDirection : 'row', 
-                justifyContent : 'space-around' 
-              }}>
-    
-                <TouchableOpacity
-                  onPress={ ()=>{ setVisible(false) 
-                                  submitData( icecreamInput,
-                                              perPiecePrice,
-                                              perBoxPieces,
-                                              supplierCommision ) 
-                                }
-                  }
-                >
-                  <IosInputButton 
-                    btnText='Submit' 
-                    btnColor='#2699ff'
-                  />
-                  
-                </TouchableOpacity>
-
-                {/* STRAIGHT LINE */}
-                <View style={{ 
-                  borderRightColor :'#CACACA',
-                  borderRightWidth :  2,
-                  backgroundColor  : 'black',
-                  justifyContent   : 'space-around',
-                  }}>
-                </View>
-
-                {/* SUBMIT BUTTON */}
-                <TouchableOpacity
-                  onPress={ ()=>setVisible(false)}
-                >
-                  <IosInputButton
-                    btnText='Cancel' 
-                    btnColor='red'
-                  />
-                </TouchableOpacity>
-
-              </View>
+              {/* COMPONENT */}
+              <CancelSubmitButton
+                submitCallBack={ ()=>{ setVisible(false) 
+                                       submitData( icecreamInput,
+                                                   perPiecePrice,
+                                                   perBoxPieces,
+                                                   supplierCommision ) 
+                               }}
+                cancelCallBack={ ()=>setVisible(false) }
+              />
 
             </View>
-
           </View>
   
         </TouchableWithoutFeedback>
@@ -167,30 +150,13 @@ export default function IosInput({ title,
 
 const styles = StyleSheet.create({
 
-  modalContainer : {
-    flex : 1,
-    justifyContent : 'center',
-    paddingHorizontal : 10,
-  },
-
-  modalBackground : {
-    backgroundColor : '#E0E0E0',
-    borderRadius : 10,
-  },
-
-  modalTitle : {
-    fontSize   : 20, 
+  unitTag : {
+    fontSize : 15,
     fontWeight : 'bold',
-    textAlign : 'center',
-    paddingTop : 25,
-    paddingBottom : 2,
-  },
-
-  modalDescription : {
-    fontSize : 15, 
-    textAlign : 'center',
-    fontStyle : 'italic',
-    color:'#4e544d', 
+    color : '#505752',
+    textAlignVertical : 'center',
+    right : 5,
+    top : 5,
   },
 
   modalIcecreamInput : {
