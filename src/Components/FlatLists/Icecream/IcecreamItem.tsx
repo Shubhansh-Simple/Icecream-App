@@ -19,9 +19,9 @@ export default function IcecreamItem({ icecream_name,
 
         <Icon 
           iconName ='edit'
-          iconSize ={20}
-          color    ='white'
-          bgCircleColor='#0095ff'
+          iconSize ={24}
+          color    ='#0095ff'
+          bgCircleColor='white'
           callBack ={ ()=>console.log('This is the game') }
         />
 
@@ -31,9 +31,9 @@ export default function IcecreamItem({ icecream_name,
 
         <Icon 
           iconName ='delete-forever'
-          iconSize ={20}
-          color    ='white'
-          bgCircleColor='#fc3158'
+          iconSize ={24}
+          color    ='#fc3158'
+          bgCircleColor='white'
           callBack ={ ()=>console.log('This is the game') }
         />        
       </View>
@@ -59,9 +59,9 @@ const styles = StyleSheet.create({
   titleStyle : {
     fontSize : 20,
     paddingBottom : 3,
-    textAlign : 'center',
     marginVertical : 5,
     fontWeight : 'bold',
+    bottom : 5,
   },
 
   textStyle : {
@@ -79,10 +79,10 @@ const styles = StyleSheet.create({
     alignSelf : 'stretch',
     padding : 10,
     paddingVertical : 10,
+    marginVertical : 15,
     borderRadius : 30,
     backgroundColor : 'white',
-    margin : 5,
-    marginVertical  : 8,
+    marginHorizontal : 5,
   }
 })
 

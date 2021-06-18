@@ -70,7 +70,7 @@ export default function IcecreamScreen() {
         />
       }
 
-      {/* INPUT WIDGET */}
+      {/*INPUT WIDGET*/}
       <IosInput
         title          ='Adding Icecream'
         description    ='Tip - Add flavour name Cup/Cone Type'
@@ -85,10 +85,10 @@ export default function IcecreamScreen() {
                         }
       />
 
-      {/*INPUT WIDGET CALLER*/}
+      {/*INPUT WIDGET CALLER BUTTON*/}
       <View style={ commonStyle.positionBtnContainer}>
         <Icon 
-          iconName ='add'
+          iconName ='icecream'
           iconSize ={50}
           color    ='white'
           bgCircleColor='#fc035e'
