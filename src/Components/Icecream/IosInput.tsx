@@ -7,10 +7,13 @@ import { View,
          TouchableWithoutFeedback,
          StyleSheet } from 'react-native';
 
-// LOCAL
+// MODAL
 import {BlackBackground}  from '../BlackBackground';
+
+// LOCAL
 import commonStyle        from '../../Styles/commonStyle';
 import CancelSubmitButton from '../Buttons/CancelSubmitButton';
+import WidgetHeader       from '../WidgetHeader';
 
 export default function IosInput({ title,
                                    description,
@@ -58,13 +61,10 @@ export default function IosInput({ title,
 
             <View style={ commonStyle.modalInputBackground }>
 
-              <Text style={ commonStyle.modalInputTitle} >
-                {title}
-              </Text>
-
-              <Text style={ commonStyle.modalInputDescription} >
-                ({description})
-              </Text>
+              <WidgetHeader
+                title      ={title}
+                description={description}
+              />
 
               {/* SOURCE NAME INPUT */}
               <TextInput
