@@ -60,7 +60,7 @@ export default function ActionSheet({ title,
                   &&
                 <ActionSheetContainer
                   actionSheetListData={data}
-                  callBack={ (id:number,name:string)=>selectedItem(id,name) }
+                  callBack={ (selectedIcecream)=>selectedItem(selectedIcecream) }
                 />
               }
             </View>

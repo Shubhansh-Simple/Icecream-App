@@ -14,7 +14,8 @@ export const window = {
 
 export const icecreamDefault = {
   'icecreamName' : 'Select Icecream',
-  'icecreamId'   : 0
+  'icecreamId'   : 0,
+  'per_box_piece': 0,
 };
 
 export const iconDefault = {

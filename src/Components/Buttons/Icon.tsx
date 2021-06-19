@@ -25,11 +25,11 @@ export default function Icon({ iconName,
           size ={iconSize}
           color={color}
         />
-      </View>
       { bottomTitle 
           && 
         <Text style={ styles.iconTextStyle }>{bottomTitle}</Text> 
       }
+      </View>
     </TouchableOpacity>
   )
 }
@@ -37,14 +37,17 @@ export default function Icon({ iconName,
 const styles = StyleSheet.create({
 
   iconStyle : {
+    flexDirection : 'row',
     padding : 5,
     borderRadius : 50,
     alignItems : 'center'
   },
 
   iconTextStyle : {
-    fontSize : 10,
+    fontSize : 13,
     textAlign : 'center',
+    color : 'white',
+    paddingHorizontal : 5,
     fontWeight : 'bold',
   },
 

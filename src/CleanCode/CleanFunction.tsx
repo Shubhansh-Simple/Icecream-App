@@ -3,13 +3,6 @@
  * CONTAINS ONLY FUNCTION 
  */
 
-export function icecreamReturn(id:number,name:string){
-  return {
-    'icecreamId'   : id,
-    'icecreamName' : name
-  }
-}
-
 export function iconReturn(bool:boolean){
   return (
     bool
@@ -23,7 +16,7 @@ export function iconReturn(bool:boolean){
     {
       'iconName'    : 'business-center',
       'color'       : 'brown',
-      'bottomTitle' : 'Boxes'
+      'bottomTitle' : 'Boxes '
     }
   )
   

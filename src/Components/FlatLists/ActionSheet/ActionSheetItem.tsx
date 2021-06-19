@@ -11,17 +11,28 @@ import StraightLine from '../../StraightLine';
 export default function IcecreamItem({ icecreamId, 
                                        icecreamName, 
                                        perPiecePrice, 
+                                       perBoxPiece,
                                        callBack
                                     }){
 
-  function icecreamNameSetter(name:string,perPiecePrice:number){
-    return name + ' ' + perPiecePrice.toString() +'rs'
+  function icecreamNameSetter( icecreamId   : number,
+                               icecreamName : string,
+                               perPiecePrice: number, 
+                               perBoxPiece  : number,
+                             ){
+     return {
+       'icecreamId'   : icecreamId,
+       'icecreamName' : icecreamName + ' ' + perPiecePrice.toString() + 'rs',
+       'per_box_piece': perBoxPiece,
+     }
   }
 
   return(
     <TouchableOpacity
-      onPress={ ()=>callBack(icecreamId, 
-                             icecreamNameSetter(icecreamName,perPiecePrice))
+      onPress={ ()=>callBack( icecreamNameSetter( icecreamId,
+                                                  icecreamName,
+                                                  perPiecePrice,
+                                                  perBoxPiece    ))
     }>
       <View>
         <Text style={styles.flatlistItem}>

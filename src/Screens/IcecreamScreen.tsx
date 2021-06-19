@@ -27,7 +27,7 @@ export default function IcecreamScreen() {
 
     queryExecutor( icecream.readIcecreamQuery,
                    null,
-                   'Icecream-I',
+                   'Icecream-R',
                    databaseData=>setIcecreamList(databaseData)
                  )
   }

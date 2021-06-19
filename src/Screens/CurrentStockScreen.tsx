@@ -75,7 +75,12 @@ export default function CurrentStockScreen({navigation}) {
         description ='Choose icecream & quantities'
         visible     ={icecreamInput}
         setVisible  ={ (bool:boolean)=>setIcecreamInput(bool) }
-        submitData  ={ data=>console.log('The data is ',data)}
+
+        submitData ={ (item,quantity,bool)=>insertStock( +item.icecreamId,
+                                                         +item.per_box_piece,
+                                                         +quantity,
+                                                         bool )
+        }
       />
 
       {/*INPUT WIDGET CALLER BUTTON*/}
@@ -85,6 +90,7 @@ export default function CurrentStockScreen({navigation}) {
           iconSize ={50}
           color    ='white'
           bgCircleColor='#fc035e'
+          bottomTitle={false}
           callBack ={ ()=>setIcecreamInput(true) }
         />
       </View>

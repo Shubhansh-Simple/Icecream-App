@@ -21,13 +21,12 @@ import Icon                from '../Buttons/Icon';
 import WidgetHeader        from '../WidgetHeader';
 import commonStyle         from '../../Styles/commonStyle';
 
-
 // CLEAN CODE 
-import { icecreamReturn, iconReturn }   from '../../CleanCode/CleanFunction';
+import { iconReturn }                   from '../../CleanCode/CleanFunction';
 import { icecreamDefault, iconDefault } from '../../CleanCode/CleanVaraible';
 
 // DATABASE
-import queryExecutor       from '../../Database/StarterFunction';
+import queryExecutor from '../../Database/StarterFunction';
 import {icecream}    from '../../Database/Queries';
 
 
@@ -42,7 +41,7 @@ export default function IcecreamInput({ title,
   const [ actionPopup, setActionPopup   ]    = useState(false)
   const [ icecreamChoice, setIcecreamChoice] = useState(icecreamDefault)
 
-  const [ bool, setBool ] = useState(true)
+  const [ isPiece, setIsPiece ] = useState(true)
   const [ icon, setIcon ] = useState(iconDefault)
 
   const [ icecreamList, setIcecreamList ]        = useState([])
@@ -74,13 +73,13 @@ export default function IcecreamInput({ title,
    * ON CLICKING
    */
   useEffect( ()=>{
-    { bool 
+    { isPiece 
         ? 
-      setIcon(iconReturn(bool) )
+      setIcon( iconReturn(isPiece) )
         :
-      setIcon(iconReturn(bool) )
+      setIcon( iconReturn(isPiece) )
     }
-  },[ bool ] )
+  },[ isPiece ])
 
   return(
     <View>
@@ -98,10 +97,10 @@ export default function IcecreamInput({ title,
         data        ={icecreamList}
         visible     ={actionPopup}
         setVisible  ={ (bool:boolean)=>setActionPopup(bool) }
-        selectedItem={ (id:number,name:string) => { setIcecreamChoice( 
-                                                      icecreamReturn(id,name)
-                                                    )
-                                                    setActionPopup(false)
+        selectedItem={ (selectedIcecream)=>{ setIcecreamChoice( 
+                                                selectedIcecream
+                                             )
+                                             setActionPopup(false)
                      }}
       />
 
@@ -132,6 +131,10 @@ export default function IcecreamInput({ title,
               />
 
               {/* HORIZONTAL LINE CONTAINER */}
+              {/*
+                * Make a component of this section 
+                * it's very important.
+                */}
               <View style={{ flexDirection : 'row',
                              justifyContent : 'space-evenly' }}>
                 <TextInput
@@ -143,21 +146,25 @@ export default function IcecreamInput({ title,
                   style               ={ commonStyle.modalIcecreamInput }
                 />
 
-                <View style={{ 'marginVertical' : 5}}>
+                <View style={{ justifyContent : 'center' }}>
                   <Icon
                     iconName     ={icon.iconName}
-                    iconSize     ={20}
+                    iconSize     ={25}
                     color        ={icon.color}
                     bgCircleColor='black'
                     bottomTitle  ={icon.bottomTitle}
-                    callBack     = { ()=>setBool(!bool) }
+                    callBack     = { ()=>setIsPiece( ()=>!isPiece ) }
                   />
                 </View>
               </View>
 
               {/* COMPONENT */}
               <CancelSubmitButton
-                submitCallBack={ ()=>console.log('Submit button') }
+                submitCallBack={ ()=>{
+                    submitData( icecreamChoice, icecreamQuantity, isPiece)
+                    setVisible(false)
+                  }
+                }
                 cancelCallBack={ ()=>setVisible(false) }
               />
 
