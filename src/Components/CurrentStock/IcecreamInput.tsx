@@ -6,34 +6,103 @@
 import React, { useState, useEffect} from 'react';
 
 import { View,
-         Text,
          Modal,
          TextInput,
-         TouchableWithoutFeedback,
-         StyleSheet } from 'react-native';
+         TouchableWithoutFeedback } from 'react-native';
 
-// LOCAL
+// LOCAL MODAL
 import { BlackBackground } from '../BlackBackground';
-import commonStyle         from '../../Styles/commonStyle';
+import ActionSheet         from '../ActionSheet';
+
+// LOCAL COMPONENT
 import CancelSubmitButton  from '../Buttons/CancelSubmitButton';
 import DropDown            from '../DropDown';
+import Icon                from '../Buttons/Icon';
+import WidgetHeader        from '../WidgetHeader';
+import commonStyle         from '../../Styles/commonStyle';
+
+
+// CLEAN CODE 
+import { icecreamReturn, iconReturn }   from '../../CleanCode/CleanFunction';
+import { icecreamDefault, iconDefault } from '../../CleanCode/CleanVaraible';
+
+// DATABASE
+import queryExecutor       from '../../Database/StarterFunction';
+import {icecream}    from '../../Database/Queries';
+
 
 export default function IcecreamInput({ title,
                                         description,
                                         visible,
                                         setVisible,
-                                        dropDownCallBack,
                                         submitData
-}){
-  const [ icecreamName,setIcecreamName ] = useState('Select Icecream')
+                                     }){
+
+  // ACTION SHEET ICECREAM SELECTOR
+  const [ actionPopup, setActionPopup   ]    = useState(false)
+  const [ icecreamChoice, setIcecreamChoice] = useState(icecreamDefault)
+
+  const [ bool, setBool ] = useState(true)
+  const [ icon, setIcon ] = useState(iconDefault)
+
+  const [ icecreamList, setIcecreamList ]        = useState([])
   const [ icecreamQuantity,setIcecreamQuantity ] = useState('')
+
+
+  function readIcecream(){
+    queryExecutor( icecream.readIcecreamQuery,
+                   null,
+                   'Icecream-R',
+                   databaseData=>setIcecreamList(databaseData)
+                 )
+  }
+
+  /*
+   * READ DATA
+   * ON ACTION POPUP
+   * OPENS
+   */
+  useEffect( ()=>{
+    { actionPopup 
+        && 
+      readIcecream()
+    }
+  },[ actionPopup ])
+
+  /*
+   * SET ICON
+   * ON CLICKING
+   */
+  useEffect( ()=>{
+    { bool 
+        ? 
+      setIcon(iconReturn(bool) )
+        :
+      setIcon(iconReturn(bool) )
+    }
+  },[ bool ] )
 
   return(
     <View>
+
       {/* BACKGROUND MODAL*/}
       <BlackBackground
         visible={visible}
         setVisible={ (bool:boolean)=>setVisible(bool) }
+      />
+
+      {/* ACTIONSHEET MODAL */}
+      <ActionSheet
+        title       ='Icecream List'
+        description ='Choose a icecream from following'
+        data        ={icecreamList}
+        visible     ={actionPopup}
+        setVisible  ={ (bool:boolean)=>setActionPopup(bool) }
+        selectedItem={ (id:number,name:string) => { setIcecreamChoice( 
+                                                      icecreamReturn(id,name)
+                                                    )
+                                                    setActionPopup(false)
+                     }}
       />
 
       <Modal
@@ -48,37 +117,43 @@ export default function IcecreamInput({ title,
           <View style={ commonStyle.modalInputContainer} >
             <View style={ commonStyle.modalInputBackground }>
 
-              <Text style={ commonStyle.modalInputTitle }>
-                {title}
-              </Text>
-
-              <Text style={ commonStyle.modalInputDescription }>
-                ({description})
-              </Text>
+              <WidgetHeader
+                title      ={title}
+                description={description}
+              />
 
               <DropDown 
-                title        ={icecreamName}
+                title        ={icecreamChoice.icecreamName}
                 iconName     ='arrow-drop-down'
                 iconSize     ={24}
                 iconColor    ='white'
                 bgCircleColor='black'
-                callBack     ={dropDownCallBack}
+                callBack     ={ ()=>setActionPopup(true) }
               />
 
               {/* HORIZONTAL LINE CONTAINER */}
-              <View style={ commonStyle.lineContainer }>
+              <View style={{ flexDirection : 'row',
+                             justifyContent : 'space-evenly' }}>
                 <TextInput
-                  placeholder = 'Quantity'
+                  placeholder         = 'Quantity'
                   placeholderTextColor='#323834'
-                  keyboardType='numeric'
-                  onChangeText={ inputValue=>setIcecreamQuantity(inputValue) }
-                  value={ icecreamQuantity }
-                  style={[ commonStyle.modalIcecreamInput,
-                           {'fontWeight':'bold'} 
-                        ]}
+                  keyboardType        ='numeric'
+                  onChangeText = { inputValue=>setIcecreamQuantity(inputValue) }
+                  value               ={ icecreamQuantity }
+                  style               ={ commonStyle.modalIcecreamInput }
                 />
-              </View>
 
+                <View style={{ 'marginVertical' : 5}}>
+                  <Icon
+                    iconName     ={icon.iconName}
+                    iconSize     ={20}
+                    color        ={icon.color}
+                    bgCircleColor='black'
+                    bottomTitle  ={icon.bottomTitle}
+                    callBack     = { ()=>setBool(!bool) }
+                  />
+                </View>
+              </View>
 
               {/* COMPONENT */}
               <CancelSubmitButton
@@ -88,16 +163,9 @@ export default function IcecreamInput({ title,
 
             </View>
           </View>
-
-
-        
         </TouchableWithoutFeedback>
       </Modal>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-})
-
 

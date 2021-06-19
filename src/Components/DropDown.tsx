@@ -6,7 +6,6 @@ import { Text,
          TouchableOpacity } from 'react-native';
 
 import Icon        from './Buttons/Icon';
-import commonStyle from '../Styles/commonStyle';
 
 export default function DropDown({ title,
                                    iconName,
