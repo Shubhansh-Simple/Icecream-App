@@ -60,6 +60,7 @@ export default function ActionSheet({ title,
                   &&
                 <ActionSheetContainer
                   actionSheetListData={data}
+                  callBack={ (id:number,name:string)=>selectedItem(id,name) }
                 />
               }
             </View>
@@ -98,6 +99,8 @@ const styles = StyleSheet.create({
   modalHeader : {
     alignItems : 'center',
     padding : 5,
+    borderBottomColor : '#f0ede6',
+    borderBottomWidth : 2,
   },
 
   modalTitle : {
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
   modalCancelButton : {
     backgroundColor : '#faf8f7',
     alignItems : 'center',
-    marginVertical : 10,
+    marginTop : 10,
     borderRadius : 15,
   },
 

@@ -8,10 +8,20 @@ import { View,
 // LOCAL
 import StraightLine from '../../StraightLine';
 
-export default function IcecreamItem({ icecreamName, perPiecePrice  }){
+export default function IcecreamItem({ icecreamId, 
+                                       icecreamName, 
+                                       perPiecePrice, 
+                                       callBack
+                                    }){
+
+  function icecreamNameSetter(name:string,perPiecePrice:number){
+    return name + ' ' + perPiecePrice.toString() +'rs'
+  }
+
   return(
     <TouchableOpacity
-      onPress={ ()=>{} 
+      onPress={ ()=>callBack(icecreamId, 
+                             icecreamNameSetter(icecreamName,perPiecePrice))
     }>
       <View>
         <Text style={styles.flatlistItem}>

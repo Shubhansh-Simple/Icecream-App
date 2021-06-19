@@ -6,9 +6,12 @@ import { View,
 
 import ActionSheetItem from './ActionSheetItem';
 
-export default function ActionSheetContainer({ actionSheetListData }){
+import {window}    from '../../../CleanCode/CleanVaraible';
+
+export default function ActionSheetContainer({ actionSheetListData, 
+                                               callBack }){
   return(
-    <View style={styles.modalBody}>
+    <View style={[styles.modalBody, {'height' : window.screenHeight/3.2} ]}>
       <FlatList
         data={actionSheetListData}
         showsVerticalScrollIndicator={false}
@@ -16,8 +19,10 @@ export default function ActionSheetContainer({ actionSheetListData }){
         renderItem={(el)=>{
           return(
             <ActionSheetItem
+              icecreamId    ={el.item.id}
               icecreamName  ={el.item.icecream_name}
               perPiecePrice ={el.item.per_piece_price}
+              callBack      ={ (id:number,name:string)=>callBack(id,name) }
             />
           )
         }}
