@@ -15,30 +15,34 @@ import {stock}          from '../Database/Queries';
 
 export default function CurrentStockScreen({navigation}) {
 
-  const [ stockList,    setStockList]      = useState([])
-
+  const [ stockList,    setStockList]       = useState([])
   const [ icecreamInput, setIcecreamInput ] = useState(false)
-
 
   function readStock(){
     queryExecutor( stock.readStockQuery,
                    null,
                    'Stock-R',
-                   databaseData=>setStockList(databaseData)
+                   databaseData=>{
+                     console.log('The data is - ',databaseData)
+                     setStockList(databaseData)
+                     }
                  )
   }
 
-  function insertStock( icecream_id:number,
-                        total_piece:number,){
+  function insertStock( icecreamId   :number, 
+                        per_box_piece:number,
+                        quantity     :number, 
+                        isPiece      :boolean 
+                      ){
+
+    let new_quantiy = ( !isPiece ?  quantity*per_box_piece : quantity )
 
     queryExecutor( stock.insertStockQuery,
-                   [ icecream_id,
-                     total_piece ],
+                   [ icecreamId, new_quantiy ],
                    'Stock-I',
                    databaseData=>readStock()
                  )
   }
-
 
   /* 
    * READ EVERY TIME ON 
@@ -67,7 +71,7 @@ export default function CurrentStockScreen({navigation}) {
           callBack={ ()=>readStock() }
         />
           :
-        <Text>{stockList}</Text> 
+        <Text>{stockList[0].icecream_name}</Text> 
       }
 
       <IcecreamInput

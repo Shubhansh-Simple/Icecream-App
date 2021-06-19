@@ -30,9 +30,8 @@ export const stock = {
     '"icecream_id" integer NOT NULL REFERENCES "Icecream" '+
       '("id") DEFERRABLE INITIALLY DEFERRED );',
 
-  readStockQuery : 'SELECT icecream_name, per_piece_price, '+
-                   'per_box_piece, icecream_id, total_piece '+
-                   'FROM STOCK JOIN ICECREAM ON '+
+  // i will improve this tomorrow.
+  readStockQuery : 'SELECT * FROM STOCK JOIN ICECREAM ON '+
                    'Stock.icecream_id=Icecream.id '+
                    'WHERE total_piece > 0 '+
                    'ORDER BY total_piece ;',
