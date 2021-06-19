@@ -1,32 +1,24 @@
 import React,{useState,useEffect}  from 'react';
-import { View, 
-         Text,
-         StyleSheet } from 'react-native';
+
+import { View, Text } from 'react-native';
 
 import NoDataFound   from '../Components/NoDataFound';
 import commonStyle   from '../Styles/commonStyle';
-import ActionSheet   from '../Components/ActionSheet';
 import Icon          from '../Components/Buttons/Icon';
 //import useIcecreamList   from '../Hooks/Icecream/useIcecreamList';
+import IcecreamInput from '../Components/CurrentStock/IcecreamInput';
 
 // DATABASE
 import queryExecutor       from '../Database/StarterFunction';
-import {icecream,stock}          from '../Database/Queries';
+import {stock}          from '../Database/Queries';
 
 
 export default function CurrentStockScreen({navigation}) {
 
-  const [ icecreamList, setIcecreamList ]  = useState([])
   const [ stockList,    setStockList]      = useState([])
-  const [ actionPopup, setActionPopup   ]  = useState(false)
 
-  function readIcecream(){
-    queryExecutor( icecream.readIcecreamQuery,
-                   null,
-                   'Icecream-R',
-                   databaseData=>setIcecreamList(databaseData)
-                 )
-  }
+  const [ icecreamInput, setIcecreamInput ] = useState(false)
+
 
   function readStock(){
     queryExecutor( stock.readStockQuery,
@@ -47,13 +39,11 @@ export default function CurrentStockScreen({navigation}) {
                  )
   }
 
-  useEffect( ()=>{
-    { actionPopup 
-        && 
-      readIcecream()
-    }
-  },[ actionPopup ])
 
+  /* 
+   * READ EVERY TIME ON 
+   * CHANGE NAVIGATION 
+   */
   useEffect( ()=>{
     const unsubscribe = navigation.addListener(
                           'focus', 
@@ -74,43 +64,31 @@ export default function CurrentStockScreen({navigation}) {
           description='Kindly add stock first'
           emojiName='emoji-neutral'
           emojiSize={90}
-          callBack={ ()=>console.log('We need to do something') }
+          callBack={ ()=>readStock() }
         />
           :
         <Text>{stockList}</Text> 
       }
 
-      {/* ACTIONSHEET WIDGET */}
-      <ActionSheet
-        title       ='Icecream List'
-        description ='Choose a icecream from following'
-        data        ={icecreamList}
-        visible     ={actionPopup}
-        setVisible  ={ (bool:boolean)=>setActionPopup(bool) }
-        selectedItem={ itemId=>console.log('The id is here - ',id) }
+      <IcecreamInput
+        title       ='Add Stock'
+        description ='Choose icecream & quantities'
+        visible     ={icecreamInput}
+        setVisible  ={ (bool:boolean)=>setIcecreamInput(bool) }
+        submitData  ={ data=>console.log('The data is ',data)}
       />
-      
 
-      {/*INPUT WIDGET CALLER*/}
+      {/*INPUT WIDGET CALLER BUTTON*/}
       <View style={ commonStyle.positionBtnContainer}>
         <Icon 
-          iconName ='icecream'
+          iconName ='shopping-cart'
           iconSize ={50}
           color    ='white'
           bgCircleColor='#fc035e'
-          callBack ={ ()=>setActionPopup(true) }
+          callBack ={ ()=>setIcecreamInput(true) }
         />
       </View>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container : {
-    'flex' : 1,
-    'justifyContent' : 'center',
-    'alignItems' : 'center',
-  },
-})
-
 
