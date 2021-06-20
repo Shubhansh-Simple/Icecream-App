@@ -30,16 +30,18 @@ export const stock = {
     '"icecream_id" integer NOT NULL REFERENCES "Icecream" '+
       '("id") DEFERRABLE INITIALLY DEFERRED );',
 
-  // i will improve this tomorrow.
-  readStockQuery : 'SELECT * FROM STOCK JOIN ICECREAM ON '+
+  readStockQuery : 'SELECT STOCK.ID, icecream_name, total_piece, '+
+                   'per_piece_price, per_box_piece '+
+                   'FROM STOCK JOIN ICECREAM ON '+
                    'Stock.icecream_id=Icecream.id '+
                    'WHERE total_piece > 0 '+
-                   'ORDER BY total_piece ;',
+                   'ORDER BY total_piece DESC ;',
 
   insertStockQuery : 'INSERT INTO Stock( icecream_id, total_piece ) '+
                      'VALUES(?,?); ',
-}
 
+  deleteStockQuery : 'DELETE FROM STOCK WHERE id=?;',
+}
 
 
 

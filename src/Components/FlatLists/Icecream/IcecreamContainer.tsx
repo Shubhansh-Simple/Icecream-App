@@ -5,20 +5,20 @@
 import React  from 'react';
 
 import { View, 
-         FlatList,
-         StyleSheet } from 'react-native';
+         FlatList } from 'react-native';
 
 import IcecreamItem   from './IcecreamItem';
+import commonStyle    from '../../../Styles/commonStyle';
 
 export default function IcecreamContainer({ icecreamListData }){
   return(
-    <View style={styles.screenContainer}>
+    <View style={commonStyle.screenContainer}>
 
       <FlatList
-        data={icecreamListData}
+        data        ={icecreamListData}
         keyExtractor={ item=>item.id.toString() }
         showsVerticalScrollIndicator={false}
-        renderItem={ (el)=>{
+        renderItem  ={ (el)=>{
           return(
             <IcecreamItem 
               icecream_name   ={el.item.icecream_name}
@@ -32,14 +32,4 @@ export default function IcecreamContainer({ icecreamListData }){
     </View>
   )
 };
-
-const styles = StyleSheet.create({
-
-  screenContainer : {
-    flex : 1,
-    paddingHorizontal : 15,
-    backgroundColor : '#e6e6e6',
-  },
-
-})
 

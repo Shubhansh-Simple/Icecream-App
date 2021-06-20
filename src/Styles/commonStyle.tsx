@@ -8,6 +8,12 @@ export default StyleSheet.create({
     'justifyContent' : 'center',
   },
 
+  screenContainer : {
+    flex : 1,
+    paddingHorizontal : 5,
+    backgroundColor : '#e6e6e6',
+  },
+
   errorText : {
     color     : 'red',
     fontSize  : 15,

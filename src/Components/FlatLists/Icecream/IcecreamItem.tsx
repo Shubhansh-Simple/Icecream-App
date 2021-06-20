@@ -18,11 +18,12 @@ export default function IcecreamItem({ icecream_name,
       <View style={ commonStyle.lineContainer }>
 
         <Icon 
-          iconName ='edit'
-          iconSize ={24}
-          color    ='#0095ff'
+          iconName     ='edit'
+          iconSize     ={24}
+          color        ='#0095ff'
           bgCircleColor='white'
-          callBack ={ ()=>console.log('This is the game') }
+          bottomTitle  ={false}
+          callBack     ={ ()=>console.log('This is the game') }
         />
 
         <Text style={styles.titleStyle}>
@@ -30,17 +31,18 @@ export default function IcecreamItem({ icecream_name,
         </Text>
 
         <Icon 
-          iconName ='delete-forever'
-          iconSize ={24}
-          color    ='#fc3158'
+          iconName     ='delete-forever'
+          iconSize     ={24}
+          color        ='#fc3158'
           bgCircleColor='white'
-          callBack ={ ()=>console.log('This is the game') }
+          bottomTitle  ={false}
+          callBack     ={ ()=>console.log('This is the game') }
         />        
       </View>
 
       <StraightLine color='grey' width={1} />
 
-      <Text style={styles.textStyle}> 
+      <Text style={ [styles.textStyle,{fontWeight:'bold'}] }> 
         Price - {per_piece_price} Rs 
       </Text>
       <Text style={styles.textStyle}>
@@ -79,8 +81,8 @@ const styles = StyleSheet.create({
     alignSelf : 'stretch',
     padding : 10,
     paddingVertical : 10,
-    marginVertical : 15,
-    borderRadius : 30,
+    marginVertical : 5,
+    borderRadius : 10,
     backgroundColor : 'white',
     marginHorizontal : 5,
   }

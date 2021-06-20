@@ -1,31 +1,33 @@
 import React,{useState,useEffect}  from 'react';
 
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import NoDataFound   from '../Components/NoDataFound';
 import commonStyle   from '../Styles/commonStyle';
 import Icon          from '../Components/Buttons/Icon';
-//import useIcecreamList   from '../Hooks/Icecream/useIcecreamList';
 import IcecreamInput from '../Components/CurrentStock/IcecreamInput';
 
+import CurrentStockContainer 
+               from '../Components/FlatLists/CurrentStock/CurrentStockContainer';
+
 // DATABASE
-import queryExecutor       from '../Database/StarterFunction';
+import queryExecutor    from '../Database/StarterFunction';
 import {stock}          from '../Database/Queries';
 
 
 export default function CurrentStockScreen({navigation}) {
 
-  const [ stockList,    setStockList]       = useState([])
-  const [ icecreamInput, setIcecreamInput ] = useState(false)
+  const [ currentStockList,    setCurrentStockList] = useState([])
+  const [ icecreamInput, setIcecreamInput ]         = useState(false)
 
   function readStock(){
+  /*
+   *READ STOCK
+   */
     queryExecutor( stock.readStockQuery,
                    null,
                    'Stock-R',
-                   databaseData=>{
-                     console.log('The data is - ',databaseData)
-                     setStockList(databaseData)
-                     }
+                   databaseData=>setCurrentStockList(databaseData) 
                  )
   }
 
@@ -34,12 +36,26 @@ export default function CurrentStockScreen({navigation}) {
                         quantity     :number, 
                         isPiece      :boolean 
                       ){
+  /*
+   *INSERT STOCK
+   */
 
     let new_quantiy = ( !isPiece ?  quantity*per_box_piece : quantity )
 
     queryExecutor( stock.insertStockQuery,
                    [ icecreamId, new_quantiy ],
                    'Stock-I',
+                   databaseData=>readStock()
+                 )
+  }
+  
+  function deleteStock( id:number ){
+  /*
+   *DELETE STOCK
+   */
+    queryExecutor( stock.deleteStockQuery,
+                   [ id ],
+                   'Stock-D',
                    databaseData=>readStock()
                  )
   }
@@ -61,7 +77,7 @@ export default function CurrentStockScreen({navigation}) {
     <View style={{ 'flex' : 1 }}>
 
       {/* CONDITIONAL CODE */}
-      { stockList.length === 0 
+      { currentStockList.length === 0 
           ?
         <NoDataFound 
           title='No Stock Found'
@@ -71,7 +87,10 @@ export default function CurrentStockScreen({navigation}) {
           callBack={ ()=>readStock() }
         />
           :
-        <Text>{stockList[0].icecream_name}</Text> 
+        <CurrentStockContainer
+          currentStockList={currentStockList}
+          deleteCallBack={(id:number)=>deleteStock(id)}
+        />
       }
 
       <IcecreamInput
@@ -90,7 +109,7 @@ export default function CurrentStockScreen({navigation}) {
       {/*INPUT WIDGET CALLER BUTTON*/}
       <View style={ commonStyle.positionBtnContainer}>
         <Icon 
-          iconName ='shopping-cart'
+          iconName ='shopping-bag'
           iconSize ={50}
           color    ='white'
           bgCircleColor='#fc035e'
