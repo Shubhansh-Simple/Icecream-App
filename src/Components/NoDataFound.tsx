@@ -13,6 +13,21 @@ export default function NoDataFound({ title,
                                       emojiName,
                                       emojiSize,
                                       callBack }){
+
+  function validCallback(){
+    return ( typeof callBack === 'function' 
+          ?
+        <TouchableOpacity onPress={ ()=>callBack() }>
+          <Text style={styles.retryBtn}>
+            Retry
+          </Text>
+        </TouchableOpacity>
+          :
+        null
+      )
+  }
+
+
   return (
     <View style={commonStyle.centerContainer}>
 
@@ -26,11 +41,7 @@ export default function NoDataFound({ title,
         {description}
       </Text>
 
-      <TouchableOpacity onPress={ ()=>callBack() }>
-        <Text style={styles.retryBtn}>
-          Retry
-        </Text>
-      </TouchableOpacity>
+      {validCallback()}
 
     </View>
 

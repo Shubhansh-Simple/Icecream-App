@@ -10,6 +10,8 @@ import IcecreamInput from '../Components/CurrentStock/IcecreamInput';
 import CurrentStockContainer 
                from '../Components/FlatLists/CurrentStock/CurrentStockContainer';
 
+import {extractId}      from '../CleanCode/CleanFunction';
+
 // DATABASE
 import queryExecutor    from '../Database/StarterFunction';
 import {stock}          from '../Database/Queries';
@@ -28,6 +30,7 @@ export default function CurrentStockScreen({navigation}) {
                    null,
                    'Stock-R',
                    databaseData=>setCurrentStockList(databaseData) 
+
                  )
   }
 
@@ -76,6 +79,21 @@ export default function CurrentStockScreen({navigation}) {
   return(
     <View style={{ 'flex' : 1 }}>
 
+      {/* ICECREAM INPUT MODAL */}
+      <IcecreamInput
+        title            ='Add Stock'
+        description      ='Choose icecream & quantities'
+        visible          ={icecreamInput}
+        setVisible       ={ (bool:boolean)=>setIcecreamInput(bool) }
+        currentIcecreamId={ extractId(currentStockList) }           //calling func.
+
+        submitData ={ (item,quantity,bool)=>insertStock( +item.icecreamId,
+                                                         +item.per_box_piece,
+                                                         +quantity,
+                                                         bool )
+        }
+      />
+
       {/* CONDITIONAL CODE */}
       { currentStockList.length === 0 
           ?
@@ -92,21 +110,8 @@ export default function CurrentStockScreen({navigation}) {
           deleteCallBack={(id:number)=>deleteStock(id)}
         />
       }
-
-      <IcecreamInput
-        title       ='Add Stock'
-        description ='Choose icecream & quantities'
-        visible     ={icecreamInput}
-        setVisible  ={ (bool:boolean)=>setIcecreamInput(bool) }
-
-        submitData ={ (item,quantity,bool)=>insertStock( +item.icecreamId,
-                                                         +item.per_box_piece,
-                                                         +quantity,
-                                                         bool )
-        }
-      />
-
-      {/*INPUT WIDGET CALLER BUTTON*/}
+      
+      {/* ICECREAM INPUT MODAL CALLER */}
       <View style={ commonStyle.positionBtnContainer}>
         <Icon 
           iconName ='shopping-bag'

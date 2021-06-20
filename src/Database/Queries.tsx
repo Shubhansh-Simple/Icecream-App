@@ -18,8 +18,13 @@ export const icecream = {
                                                'per_box_piece, '+
                                                'supplier_commission ) '+
                                                'VALUES(?,?,?,?);',
-  readIcecreamQuery : 'SELECT * FROM Icecream ORDER BY per_piece_price ;'
+  readIcecreamQuery : 'SELECT * FROM Icecream ORDER BY per_piece_price ;',
 
+  readSelectedIcecreamQuery : 'SELECT "icecream"."id", "icecream"."icecream_name", '+
+                              '"icecream"."per_piece_price", "icecream"."per_box_piece", '+ 
+                              '"icecream"."supplier_commission" '+
+                              'FROM "icecream" WHERE NOT ("icecream"."id" IN ',
+                              //'(8,3,9) );',
 }
 
 export const stock = {
@@ -30,12 +35,14 @@ export const stock = {
     '"icecream_id" integer NOT NULL REFERENCES "Icecream" '+
       '("id") DEFERRABLE INITIALLY DEFERRED );',
 
-  readStockQuery : 'SELECT STOCK.ID, icecream_name, total_piece, '+
+  readStockQuery : 'SELECT STOCK.ID, icecream_id, icecream_name, total_piece, '+
                    'per_piece_price, per_box_piece '+
                    'FROM STOCK JOIN ICECREAM ON '+
                    'Stock.icecream_id=Icecream.id '+
                    'WHERE total_piece > 0 '+
                    'ORDER BY total_piece DESC ;',
+
+
 
   insertStockQuery : 'INSERT INTO Stock( icecream_id, total_piece ) '+
                      'VALUES(?,?); ',

@@ -19,6 +19,23 @@ export function iconReturn(bool:boolean){
       'bottomTitle' : 'Boxes '
     }
   )
-  
+}
+
+/*
+ * RETURN ID'S ARRAY
+ * FROM ICECREAM LIST
+ * FOR CUSTOM QUERY
+ */
+export function extractId(icecreamList){
+
+  let icecreamIdList = []
+
+  for (let eachIcecream of icecreamList){
+    icecreamIdList.push(eachIcecream.icecream_id)
+  }
+
+  let icecreamIdJoin = icecreamIdList.join(',')
+
+  return '('+icecreamIdJoin+')'
 }
 

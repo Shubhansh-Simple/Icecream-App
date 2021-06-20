@@ -34,6 +34,7 @@ export default function IcecreamInput({ title,
                                         description,
                                         visible,
                                         setVisible,
+                                        currentIcecreamId,
                                         submitData
                                      }){
 
@@ -47,9 +48,9 @@ export default function IcecreamInput({ title,
   const [ icecreamList, setIcecreamList ]        = useState([])
   const [ icecreamQuantity,setIcecreamQuantity ] = useState('')
 
+  function readIcecream( excludedId:Number[] ){
 
-  function readIcecream(){
-    queryExecutor( icecream.readIcecreamQuery,
+    queryExecutor( icecream.readSelectedIcecreamQuery + excludedId.toString() + ' );',
                    null,
                    'Icecream-R',
                    databaseData=>setIcecreamList(databaseData)
@@ -64,7 +65,7 @@ export default function IcecreamInput({ title,
   useEffect( ()=>{
     { actionPopup 
         && 
-      readIcecream()
+      readIcecream(currentIcecreamId)
     }
   },[ actionPopup ])
 
@@ -95,6 +96,8 @@ export default function IcecreamInput({ title,
         title       ='Icecream List'
         description ='Choose a icecream from following'
         data        ={icecreamList}
+        noDataFound ='No New Icecream Found'
+        noDataTip   ='(You can update CurrentStock if required)'
         visible     ={actionPopup}
         setVisible  ={ (bool:boolean)=>setActionPopup(bool) }
         selectedItem={ (selectedIcecream)=>{ setIcecreamChoice( 

@@ -13,6 +13,8 @@ import ActionSheetContainer from './FlatLists/ActionSheet/ActionSheetContainer';
 export default function ActionSheet({ title,
                                       description,
                                       data,
+                                      noDataFound,
+                                      noDataTip,
                                       visible,
                                       setVisible,
                                       selectedItem
@@ -55,14 +57,12 @@ export default function ActionSheet({ title,
               </View>
               {/*HEADER ENDS*/}
 
-              {/*CONDITIONAL FLATLIST CODE*/} 
-              { data 
-                  &&
-                <ActionSheetContainer
-                  actionSheetListData={data}
-                  callBack={ (selectedIcecream)=>selectedItem(selectedIcecream) }
-                />
-              }
+              <ActionSheetContainer
+                actionSheetListData={data}
+                noDataFound={noDataFound}
+                noDataTip={noDataTip}
+                callBack={ (selectedIcecream)=>selectedItem(selectedIcecream) }
+              />
             </View>
 
             {/* FOOTER STARTS */}
