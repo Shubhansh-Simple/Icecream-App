@@ -50,7 +50,8 @@ export default function IcecreamInput({ title,
 
   function readIcecream( excludedId:Number[] ){
 
-    queryExecutor( icecream.readSelectedIcecreamQuery + excludedId.toString() + ' );',
+    queryExecutor( icecream.readSelectedIcecreamQuery +  
+                   excludedId.toString() + ');',
                    null,
                    'Icecream-R',
                    databaseData=>setIcecreamList(databaseData)

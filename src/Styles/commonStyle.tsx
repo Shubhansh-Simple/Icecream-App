@@ -8,6 +8,12 @@ export default StyleSheet.create({
     'justifyContent' : 'center',
   },
 
+  blackBg : {
+    backgroundColor : '#393b39',
+    color : 'white',
+    borderRadius : 5,
+  },
+
   screenContainer : {
     flex : 1,
     paddingHorizontal : 5,

@@ -2,10 +2,12 @@ import React,{useState,useEffect}  from 'react';
 
 import { View } from 'react-native';
 
+//MODAL
+import IcecreamInput from '../Components/CurrentStock/IcecreamInput';
+
 import NoDataFound   from '../Components/NoDataFound';
 import commonStyle   from '../Styles/commonStyle';
 import Icon          from '../Components/Buttons/Icon';
-import IcecreamInput from '../Components/CurrentStock/IcecreamInput';
 
 import CurrentStockContainer 
                from '../Components/FlatLists/CurrentStock/CurrentStockContainer';
@@ -29,7 +31,7 @@ export default function CurrentStockScreen({navigation}) {
     queryExecutor( stock.readStockQuery,
                    null,
                    'Stock-R',
-                   databaseData=>setCurrentStockList(databaseData) 
+                   databaseData=>setCurrentStockList(databaseData)
 
                  )
   }
@@ -42,7 +44,7 @@ export default function CurrentStockScreen({navigation}) {
   /*
    *INSERT STOCK
    */
-
+    console.log('Is piece - ',isPiece)
     let new_quantiy = ( !isPiece ?  quantity*per_box_piece : quantity )
 
     queryExecutor( stock.insertStockQuery,

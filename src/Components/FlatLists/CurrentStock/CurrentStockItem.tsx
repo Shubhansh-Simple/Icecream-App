@@ -19,43 +19,46 @@ export default function CurrentStockItem({ stock_id,
   const total_pieces = total_piece % per_box_piece
   const total_boxes  = Number( (total_piece/per_box_piece).toFixed() )
 
-  function unitDecider(data:number,text:string){
-    return ( data
-              ?
-             <Text style={ styles.totalPieceStyle }>
-               {data} {text} 
-             </Text>
-              :
-             null
-           )
+  function unitDecider( quantity:number, unit:string ){
+    return (
+      quantity !=0 && <Text>{quantity} {unit}</Text>
+    ) 
   }
 
   return(
-    <View style={ [styles.itemContainer, commonStyle.shadow ]}>
+    <View style={ [styles.itemContainer]}>
 
       <TouchableOpacity onPress={ ()=>deleteCallBack(stock_id) }>
      
         <View style={ styles.stockContainerStyle }>
 
-          <MaterialIcons 
-            name='icecream'
-            size={40}
-            color='red'
-            style={ styles.iconStyle }
-          />
-          <Text style={styles.titleStyle}>
-            {icecream_name}
-          </Text>
+          <View style={{ flexDirection : 'row',
+                         justifyContent : 'flex-start',
+                         alignItems : 'center',
+                      }}>
 
-          <View style={{ top : 5}}>
-            { unitDecider(total_boxes, 'Box  ')   }
-            { unitDecider(total_pieces,'Piece') }
+            <MaterialIcons 
+              name='icecream'
+              size={25}
+              color='red'
+              style={ styles.iconStyle }
+            />
+            <Text style={styles.titleStyle}>
+              {icecream_name}
+            </Text>
+
           </View>
+
+          <Text style={[ styles.totalPieceStyle,commonStyle.blackBg ]}>
+            { unitDecider( total_boxes,'Box')   } 
+            {' '}
+            { unitDecider( total_pieces,'Piece') }
+          </Text>
 
         </View>
 
-        <Text style={styles.miniText}>
-          ({per_box_piece}Nos x {per_piece_price}rs)
+        <Text style={[ styles.miniText, commonStyle.blackBg ]}>
+          {per_box_piece}Nos x {per_piece_price}rs
         </Text>
       </TouchableOpacity>
 
@@ -67,10 +70,11 @@ const styles = StyleSheet.create({
 
   itemContainer : {
     alignSelf : 'stretch',
-    paddingVertical : 5,
-    paddingHorizontal : 2,
+    paddingVertical : 9,
+    paddingLeft : 10,
+    paddingRight : 5,
     backgroundColor : 'white',
-    marginVertical : 3,
+    marginVertical : 2,
     borderRadius : 10,
   },
 
@@ -81,29 +85,26 @@ const styles = StyleSheet.create({
   },
 
   iconStyle : {
+    paddingRight : 5,
   },
 
   titleStyle : {
     fontSize : 25,
     marginVertical : 5,
-    fontFamily : 'sans-serif-medium'
   },
 
   totalPieceStyle : {
-    fontSize : 15,
-    color : '#24a647',
-    fontWeight : 'bold',
-    paddingHorizontal : 2,
-    borderRadius : 5,
-    backgroundColor : '#323834',
-    borderBottomWidth : 1,
-    borderBottomColor : 'silver',
+    fontSize : 20,
+    fontStyle : 'italic',
+    paddingHorizontal : 3,
     textAlign : 'center',
     textAlignVertical : 'center',
   },
   
   miniText : {
     fontSize : 11,
+    paddingHorizontal : 2,
+    alignSelf : 'flex-start',
     fontWeight : 'bold',
   },
 
