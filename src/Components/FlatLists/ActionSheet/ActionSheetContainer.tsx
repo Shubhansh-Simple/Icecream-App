@@ -38,6 +38,7 @@ export default function ActionSheetContainer({ actionSheetListData,
                 icecreamName  ={el.item.icecream_name}
                 perPiecePrice ={el.item.per_piece_price}
                 perBoxPiece   ={el.item.per_box_piece}
+                totalPiece    ={el.item.total_piece }
                 callBack      ={ (selectedIcecream)=>callBack(selectedIcecream) }
               />
             )

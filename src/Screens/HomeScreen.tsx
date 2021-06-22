@@ -3,7 +3,6 @@ import { createIcecream,
          createStock } from '../Database/StarterFunction';
 
 import { View, 
-         Text,
          StyleSheet } from 'react-native';
 
 import IcecreamInput from '../Components/CurrentStock/IcecreamInput';
@@ -15,7 +14,6 @@ import {stock}          from '../Database/Queries';
 // LOCAL
 import commonStyle from '../Styles/commonStyle';
 import Icon        from '../Components/Buttons/Icon';
-import {extractId}      from '../CleanCode/CleanFunction';
 
 export default function HomeScreen() {
 
@@ -44,16 +42,21 @@ export default function HomeScreen() {
     createStock()
   },[])
 
+  useEffect( ()=>{
+    readStock()  
+  },[icecreamInput])
+
   return(
     <View style={styles.container}>
 
       {/* ICECREAM INPUT MODAL */}
       <IcecreamInput
-        title            ='Starts Solding Icecream'
+        title            ='Sold Icecream'
         description      ='Choose icecream & quantities to sold'
         visible          ={icecreamInput}
         setVisible       ={ (bool:boolean)=>setIcecreamInput(bool) }
-        currentIcecreamId={ extractId(currentStockList) }          //calling func.
+        filterQuery      ={stock.readStockIcecreamQuery }
+        currentIcecreamId={0}          //calling func.
 
         submitData ={ (item,quantity,bool)=>insertSale()}
       />

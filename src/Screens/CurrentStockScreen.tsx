@@ -16,7 +16,7 @@ import {extractId}      from '../CleanCode/CleanFunction';
 
 // DATABASE
 import queryExecutor    from '../Database/StarterFunction';
-import {stock}          from '../Database/Queries';
+import {stock,icecream}          from '../Database/Queries';
 
 
 export default function CurrentStockScreen({navigation}) {
@@ -87,6 +87,7 @@ export default function CurrentStockScreen({navigation}) {
         description      ='Choose icecream & quantities'
         visible          ={icecreamInput}
         setVisible       ={ (bool:boolean)=>setIcecreamInput(bool) }
+        filterQuery      ={ icecream.readMissingIcecreamQuery }
         currentIcecreamId={ extractId(currentStockList) }           //calling func.
 
         submitData ={ (item,quantity,bool)=>insertStock( +item.icecreamId,

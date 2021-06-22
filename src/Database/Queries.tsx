@@ -18,13 +18,21 @@ export const icecream = {
                                                'per_box_piece, '+
                                                'supplier_commission ) '+
                                                'VALUES(?,?,?,?);',
+
   readIcecreamQuery : 'SELECT * FROM Icecream ORDER BY per_piece_price ;',
 
-  readSelectedIcecreamQuery : 'SELECT "icecream"."id", "icecream"."icecream_name", '+
-                              '"icecream"."per_piece_price", "icecream"."per_box_piece", '+ 
-                              '"icecream"."supplier_commission" '+
-                              'FROM "icecream" WHERE NOT ("icecream"."id" IN ',
-                              //'(8,3,9) );',
+  //Not In Stock Table
+  readMissingIcecreamQuery   : 'SELECT "icecream"."id", '         +
+                               '"icecream"."icecream_name", '     +
+                               '"icecream"."per_piece_price", '   +
+                               '"icecream"."per_box_piece" '     + 
+                               'FROM "icecream" WHERE NOT ("icecream"."id" IN ',
+
+                               //Endswith -> '(8,3,9) );'
+
+  orderByPrice               : ' ORDER BY per_piece_price ;',
+
+  deleteIcreamQuery : 'DELETE FROM Icecream WHERE id=?;',
 }
 
 export const stock = {
@@ -40,8 +48,15 @@ export const stock = {
                    'FROM STOCK JOIN ICECREAM ON '+
                    'Stock.icecream_id=Icecream.id '+
                    'WHERE total_piece > 0 '+
-                   'ORDER BY total_piece DESC ;',
+                   'ORDER BY per_piece_price;',
 
+  // ALIAS ICECREAM_ID TO ID
+  readStockIcecreamQuery : 'SELECT STOCK.icecream_id AS id , '+
+                           ' icecream_name, total_piece, '+
+                           'per_piece_price, per_box_piece '+
+                           'FROM STOCK JOIN ICECREAM ON '+
+                           'Stock.icecream_id=Icecream.id '+
+                           'WHERE total_piece > 0 ',
 
 
   insertStockQuery : 'INSERT INTO Stock( icecream_id, total_piece ) '+

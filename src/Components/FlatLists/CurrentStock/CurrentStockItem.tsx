@@ -4,8 +4,7 @@ import { View,
          TouchableOpacity,
          StyleSheet } from 'react-native';
 
-import { MaterialIcons  } from '@expo/vector-icons';
-
+import Icon        from '../../Buttons/Icon';
 import commonStyle from '../../../Styles/commonStyle';
 
 export default function CurrentStockItem({ stock_id, 
@@ -16,8 +15,12 @@ export default function CurrentStockItem({ stock_id,
                                            deleteCallBack,
                                         }){
 
+  // Convert Piece into Boxes
+  const total_boxes  = Math.floor(total_piece/per_box_piece) 
+
+  // Extract Remaining Pieces
   const total_pieces = total_piece % per_box_piece
-  const total_boxes  = Number( (total_piece/per_box_piece).toFixed() )
+
 
   function unitDecider( quantity:number, unit:string ){
     return (
@@ -37,12 +40,15 @@ export default function CurrentStockItem({ stock_id,
                          alignItems : 'center',
                       }}>
 
-            <MaterialIcons 
-              name='icecream'
-              size={25}
-              color='red'
-              style={ styles.iconStyle }
+            <Icon
+              iconName='icecream'
+              iconSize={20}
+              color='#fc035e'
+              bgCircleColor='#393b39'
+              bottomTitle={false}
+              callBack={false}
             />
+            
             <Text style={styles.titleStyle}>
               {icecream_name}
             </Text>
@@ -69,8 +75,7 @@ export default function CurrentStockItem({ stock_id,
 const styles = StyleSheet.create({
 
   itemContainer : {
-    alignSelf : 'stretch',
-    paddingVertical : 9,
+    paddingVertical : 15,
     paddingLeft : 10,
     paddingRight : 5,
     backgroundColor : 'white',
@@ -84,12 +89,11 @@ const styles = StyleSheet.create({
     alignItems : 'center' 
   },
 
-  iconStyle : {
-    paddingRight : 5,
-  },
-
   titleStyle : {
-    fontSize : 25,
+    fontSize : 22,
+    paddingHorizontal : 5,
+    fontWeight : 'bold',
+    color : '#393b39',
     marginVertical : 5,
   },
 
@@ -97,8 +101,7 @@ const styles = StyleSheet.create({
     fontSize : 20,
     fontStyle : 'italic',
     paddingHorizontal : 3,
-    textAlign : 'center',
-    textAlignVertical : 'center',
+    alignSelf : 'center',
   },
   
   miniText : {
@@ -106,6 +109,7 @@ const styles = StyleSheet.create({
     paddingHorizontal : 2,
     alignSelf : 'flex-start',
     fontWeight : 'bold',
+    top : 10,
   },
 
 })

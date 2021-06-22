@@ -36,6 +36,19 @@ export function extractId(icecreamList){
 
   let icecreamIdJoin = icecreamIdList.join(',')
 
-  return '('+icecreamIdJoin+')'
+  return '('+icecreamIdJoin+') )'
 }
+
+export function queryMaker( query1:string, 
+                            query2:Number[], 
+                            query3:string 
+                          ){
+  return ( (query2.length) > 0
+      ?
+    query1+query2.toString()+query3
+      :
+    query1+query3
+  )
+}
+
 

@@ -3,7 +3,7 @@
  * take Icecream Quantity & Name
  * as input
  */
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { View,
          Modal,
@@ -22,18 +22,19 @@ import WidgetHeader        from '../WidgetHeader';
 import commonStyle         from '../../Styles/commonStyle';
 
 // CLEAN CODE 
-import { iconReturn }                   from '../../CleanCode/CleanFunction';
+import { iconReturn, queryMaker }       from '../../CleanCode/CleanFunction';
 import { icecreamDefault, iconDefault } from '../../CleanCode/CleanVaraible';
 
 // DATABASE
+import { icecream }  from '../../Database/Queries';
 import queryExecutor from '../../Database/StarterFunction';
-import {icecream}    from '../../Database/Queries';
 
 
 export default function IcecreamInput({ title,
                                         description,
                                         visible,
                                         setVisible,
+                                        filterQuery,
                                         currentIcecreamId,
                                         submitData
                                      }){
@@ -50,8 +51,10 @@ export default function IcecreamInput({ title,
 
   function readIcecream( excludedId:Number[] ){
 
-    queryExecutor( icecream.readSelectedIcecreamQuery +  
-                   excludedId.toString() + ');',
+    let finalQuery = queryMaker(filterQuery, excludedId, icecream.orderByPrice)
+    console.log('Final Query - ',finalQuery)
+
+    queryExecutor( finalQuery,
                    null,
                    'Icecream-R',
                    databaseData=>setIcecreamList(databaseData)
