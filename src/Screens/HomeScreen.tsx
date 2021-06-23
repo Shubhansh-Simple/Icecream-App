@@ -1,4 +1,5 @@
 import React, { useState,useEffect }  from 'react';
+
 import { createIcecream, 
          createStock } from '../Database/StarterFunction';
 
@@ -17,17 +18,37 @@ import Icon        from '../Components/Buttons/Icon';
 
 export default function HomeScreen() {
 
-  const [ currentStockList,    setCurrentStockList] = useState([])
-  const [ icecreamInput, setIcecreamInput ]         = useState(false)
+  const [ saleList,    setSaleList]         = useState([])
+  const [ icecreamInput, setIcecreamInput ] = useState(false)
 
-  function readStock(){
-    /*
-     *READ STOCK
-     */
-    queryExecutor( stock.readStockQuery,
+  /*
+   *READ STOCK
+   */
+  function readSale(){
+
+    queryExecutor( stock.readSaleQuery,
                    null,
-                   'Stock-R',
-                   databaseData=>setCurrentStockList(databaseData)
+                   'Sale-R',
+                   databaseData=>setSaleList(databaseData)
+                 )
+  }
+
+  /*
+   * On Selling Icecream, 
+   * CurrentStock Decrease
+   */
+  function decrementStock( quantity:number, 
+                           per_box_piece : number,
+                           id:number, 
+                           isPiece:boolean,
+                         ){
+
+    let new_quantiy = ( !isPiece ?  quantity*per_box_piece : quantity )
+
+    queryExecutor( stock.decrementStockQuery,
+                   [ new_quantiy,id ],
+                   'Stock-Down',
+                   databaseData=>console.log('Do nothing here - ',databaseData)
                  )
   }
 
@@ -36,14 +57,14 @@ export default function HomeScreen() {
   }
 
 
-
   useEffect( ()=>{
     createIcecream()
     createStock()
+  //createSale()
   },[])
 
   useEffect( ()=>{
-    readStock()  
+    //readStock()  
   },[icecreamInput])
 
   return(

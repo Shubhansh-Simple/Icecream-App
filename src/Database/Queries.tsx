@@ -58,6 +58,10 @@ export const stock = {
                            'Stock.icecream_id=Icecream.id '+
                            'WHERE total_piece > 0 ',
 
+  // -quantity for decrement
+  // +quantity for increment
+  decrementStockQuery : 'UPDATE STOCK SET total_piece = total_piece + ? '+
+                        'WHERE icecream_id=?',
 
   insertStockQuery : 'INSERT INTO Stock( icecream_id, total_piece ) '+
                      'VALUES(?,?); ',
