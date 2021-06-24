@@ -2,10 +2,10 @@
 import {icecream,stock} from './Queries';
 
 export default function queryExecutor( sqlQuery:string, 
-                              argument : null | Array<any>, 
-                              table_name='',
-                              callBack
-                            ){
+                                       argument : null | Array<any>, 
+                                       table_name='',
+                                       callBack
+                                     ){
   /*
    * SQL Query 
    * EXECUTOR

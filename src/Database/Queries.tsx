@@ -8,8 +8,14 @@ export const icecream = {
   createIcecreamQuery : 'CREATE TABLE IF NOT EXISTS "Icecream" ('+
     '"id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, '+
     '"icecream_name" varchar(15) NOT NULL, '+
-    '"per_piece_price" smallint unsigned NOT NULL CHECK ("per_piece_price" >= 0),'+
-    '"per_box_piece" smallint unsigned NOT NULL CHECK ("per_box_piece" >= 0),'+
+    '"is_active" bool NOT NULL , '+
+
+    '"per_piece_price" smallint unsigned NOT NULL CHECK '+
+      '("per_piece_price" >= 0),'+
+
+    '"per_box_piece" smallint unsigned NOT NULL CHECK '+
+      '("per_box_piece" >= 0),'+
+
     '"supplier_commission" smallint unsigned NOT NULL CHECK '+
       '("supplier_commission" >= 0));',
 
@@ -35,12 +41,13 @@ export const icecream = {
   deleteIcreamQuery : 'DELETE FROM Icecream WHERE id=?;',
 }
 
+
 export const stock = {
 
   createStockQuery : 'CREATE TABLE IF NOT EXISTS "Stock" (' +
     '"id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, '+
     '"total_piece" smallint unsigned NOT NULL CHECK ("total_piece" >= 0), '+
-    '"icecream_id" integer NOT NULL REFERENCES "Icecream" '+
+    '"icecream_id" integer NOT NULL UNIQUE REFERENCES "Icecream" '+
       '("id") DEFERRABLE INITIALLY DEFERRED );',
 
   readStockQuery : 'SELECT STOCK.ID, icecream_id, icecream_name, total_piece, '+
@@ -68,9 +75,6 @@ export const stock = {
 
   deleteStockQuery : 'DELETE FROM STOCK WHERE id=?;',
 }
-
-
-
 
 
 

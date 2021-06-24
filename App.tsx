@@ -7,7 +7,7 @@ import { createStackNavigator }     from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // LOCAL
-import HomeScreen          from './src/Screens/HomeScreen';
+import SaleScreen          from './src/Screens/SaleScreen';
 import CurrentStockScreen  from './src/Screens/CurrentStockScreen';
 import IcecreamScreen      from './src/Screens/IcecreamScreen';
 
@@ -32,7 +32,7 @@ function HomeStackScreen(){
     >
       <HomeStack.Screen 
         name='Home' 
-        component={HomeScreen} />
+        component={SaleScreen} />
     </HomeStack.Navigator>
   )
 }
