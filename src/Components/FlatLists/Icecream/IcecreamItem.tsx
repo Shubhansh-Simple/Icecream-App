@@ -8,10 +8,13 @@ import commonStyle  from '../../../Styles/commonStyle';
 import StraightLine from '../../StraightLine';
 import Icon         from '../../Buttons/Icon';
 
-export default function IcecreamItem({ icecream_name,
+export default function IcecreamItem({ icecream_id,
+                                       icecream_name,
                                        per_piece_price,
                                        per_box_piece,
-                                       supplier_commission }){
+                                       supplier_commission,
+                                       deleteCallBack,
+                                    }){
   return (
     <View style={[ styles.itemContainer, commonStyle.shadow ]}>
 
@@ -36,7 +39,7 @@ export default function IcecreamItem({ icecream_name,
           color        ='#fc3158'
           bgCircleColor='white'
           bottomTitle  ={false}
-          callBack     ={ ()=>console.log('This is the game') }
+          callBack     ={ ()=>deleteCallBack(icecream_id) }
         />        
       </View>
 

@@ -31,8 +31,8 @@ export default function CurrentStockContainer({ currentStockList,
               total_piece    ={ el.item.total_piece}
               deleteCallBack ={ (id:number)=>deleteCallBack(id)}
             />
-          )
-        }}
+          )}
+        }
       />
     </View>
   )

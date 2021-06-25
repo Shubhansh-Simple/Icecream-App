@@ -16,38 +16,40 @@ import {stock}          from '../Database/Queries';
 import commonStyle from '../Styles/commonStyle';
 import Icon        from '../Components/Buttons/Icon';
 
-export default function HomeScreen() {
+export default function SaleScreen() {
 
   const [ saleList,    setSaleList]         = useState([])
   const [ icecreamInput, setIcecreamInput ] = useState(false)
 
   /*
-   *READ STOCK
+   *READ SALE
    */
-  function readSale(){
+  //function readSale(){
 
-    queryExecutor( stock.readSaleQuery,
-                   null,
-                   'Sale-R',
-                   databaseData=>setSaleList(databaseData)
-                 )
-  }
+  //  queryExecutor( stock.readSaleQuery,
+  //                 null,
+  //                 'Sale-R',
+  //                 databaseData=>setSaleList(databaseData)
+  //               )
+  //}
 
   /*
    * On Selling Icecream, 
    * CurrentStock Decrease
    */
-  function decrementStock( quantity:number, 
-                           per_box_piece : number,
-                           id:number, 
-                           isPiece:boolean,
-                         ){
+  function insertStock( stock_id      :number, 
+                        per_box_piece :number,
+                        quantity      :number, 
+                        isPiece       :boolean 
+                      ){
+  /*
+   *INSERT STOCK
+   */
+    let new_quantity = ( !isPiece ?  quantity*per_box_piece : quantity )
 
-    let new_quantiy = ( !isPiece ?  quantity*per_box_piece : quantity )
-
-    queryExecutor( stock.decrementStockQuery,
-                   [ new_quantiy,id ],
-                   'Stock-Down',
+    queryExecutor( stock.updateStockQuery,
+                   [new_quantity,stock_id],
+                   'Stock-U',
                    databaseData=>console.log('Do nothing here - ',databaseData)
                  )
   }
@@ -72,14 +74,21 @@ export default function HomeScreen() {
 
       {/* ICECREAM INPUT MODAL */}
       <IcecreamInput
-        title            ='Sold Icecream'
-        description      ='Choose icecream & quantities to sold'
-        visible          ={icecreamInput}
-        setVisible       ={ (bool:boolean)=>setIcecreamInput(bool) }
-        filterQuery      ={stock.readStockIcecreamQuery }
-        currentIcecreamId={0}          //calling func.
-
-        submitData ={ (item,quantity,bool)=>insertSale()}
+        title         ='Sold Icecream'
+        description   ='Choose icecream & quantities to sold'
+        visible       ={icecreamInput}
+        setVisible    ={ (bool:boolean)=>setIcecreamInput(bool) }
+        submitBtnTitle=' Sold '
+        query         ={ stock.readConditionStockQuery }
+        submitData    ={ ( selectedIcecream,  
+                           icecreamQuantity, 
+                           isPiece 
+                         )=>insertStock(  selectedIcecream.stock_id,
+                                          selectedIcecream.per_box_piece,
+                                          -icecreamQuantity,
+                                          isPiece 
+                                        )
+                       }
       />
 
       {/* ICECREAM INPUT MODAL CALLER */}

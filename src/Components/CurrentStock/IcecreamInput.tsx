@@ -22,11 +22,10 @@ import WidgetHeader        from '../WidgetHeader';
 import commonStyle         from '../../Styles/commonStyle';
 
 // CLEAN CODE 
-import { iconReturn, queryMaker }       from '../../CleanCode/CleanFunction';
+import { iconReturn }       from '../../CleanCode/CleanFunction';
 import { icecreamDefault, iconDefault } from '../../CleanCode/CleanVaraible';
 
 // DATABASE
-import { icecream }  from '../../Database/Queries';
 import queryExecutor from '../../Database/StarterFunction';
 
 
@@ -34,8 +33,8 @@ export default function IcecreamInput({ title,
                                         description,
                                         visible,
                                         setVisible,
-                                        filterQuery,
-                                        currentIcecreamId,
+                                        submitBtnTitle,
+                                        query,
                                         submitData
                                      }){
 
@@ -49,15 +48,12 @@ export default function IcecreamInput({ title,
   const [ icecreamList, setIcecreamList ]        = useState([])
   const [ icecreamQuantity,setIcecreamQuantity ] = useState('')
 
-  function readIcecream( excludedId:Number[] ){
+  function readIcecreamStock(){
 
-    let finalQuery = queryMaker(filterQuery, excludedId, icecream.orderByPrice)
-    console.log('Final Query - ',finalQuery)
-
-    queryExecutor( finalQuery,
+    queryExecutor( query,
                    null,
                    'Icecream-R',
-                   databaseData=>setIcecreamList(databaseData)
+                   databaseData=>setIcecreamList(databaseData.rows._array)
                  )
   }
 
@@ -69,7 +65,7 @@ export default function IcecreamInput({ title,
   useEffect( ()=>{
     { actionPopup 
         && 
-      readIcecream(currentIcecreamId)
+      readIcecreamStock()
     }
   },[ actionPopup ])
 
@@ -96,14 +92,14 @@ export default function IcecreamInput({ title,
       />
 
       {/* ACTIONSHEET MODAL */}
-      <ActionSheet
-        title       ='Icecream List'
-        description ='Choose a icecream from following'
-        data        ={icecreamList}
-        noDataFound ='No New Icecream Found'
-        noDataTip   ='(You can update CurrentStock if required)'
-        visible     ={actionPopup}
-        setVisible  ={ (bool:boolean)=>setActionPopup(bool) }
+      <ActionSheet      
+        title           ='Icecream List'
+        description     ='Choose a icecream from following'
+        data            ={icecreamList}
+        noDataFound     ='No Icecream Found'
+        noDataTip       ='(Kindly add icecreams first)'
+        visible         ={actionPopup}
+        setVisible      ={ (bool:boolean)=>setActionPopup(bool) }
         selectedItem={ (selectedIcecream)=>{ setIcecreamChoice( 
                                                 selectedIcecream
                                              )
@@ -129,7 +125,7 @@ export default function IcecreamInput({ title,
               />
 
               <DropDown 
-                title        ={icecreamChoice.icecreamName}
+                title        ={icecreamChoice.icecream.icecream_name}
                 iconName     ='arrow-drop-down'
                 iconSize     ={24}
                 iconColor    ='white'
@@ -167,8 +163,9 @@ export default function IcecreamInput({ title,
 
               {/* COMPONENT */}
               <CancelSubmitButton
+                submitBtnTitle={submitBtnTitle}
                 submitCallBack={ ()=>{
-                    submitData( icecreamChoice, icecreamQuantity, isPiece)
+                    submitData( icecreamChoice, icecreamQuantity, isPiece )
                     setVisible(false)
                   }
                 }

@@ -13,9 +13,12 @@ export const window = {
 };
 
 export const icecreamDefault = {
-  'icecreamName' : 'Select Icecream',
-  'icecreamId'   : 0,
-  'per_box_piece': 0,
+  "icecream" : {
+    'icecream_name'   : 'Select Icecream',
+    'icecream_id'     : 0,
+    'per_box_piece'   : 0,
+    'per_piece_price' : 0
+  }
 };
 
 export const iconDefault = {

@@ -4,7 +4,6 @@ import { View,
          StyleSheet } from 'react-native';
 
 // LOCAL
-//import useIcecreamList   from '../Hooks/Icecream/useIcecreamList';
 import NoDataFound       from '../Components/NoDataFound';
 import Icon              from '../Components/Buttons/Icon';
 import IosInput          from '../Components/Icecream/IosInput';
@@ -13,7 +12,8 @@ import commonStyle       from '../Styles/commonStyle';
 
 // DATABASE
 import queryExecutor       from '../Database/StarterFunction';
-import {icecream}          from '../Database/Queries';
+import { icecream,stock }  from '../Database/Queries';
+
 
 export default function IcecreamScreen() {
 
@@ -28,7 +28,29 @@ export default function IcecreamScreen() {
     queryExecutor( icecream.readIcecreamQuery,
                    null,
                    'Icecream-R',
-                   databaseData=>setIcecreamList(databaseData)
+                   databaseData=>setIcecreamList(databaseData.rows._array)
+                 )
+  }
+
+  /*
+   * CURRENT STOCK OF
+   * NEW ICECREAM IS 0
+   */
+  function insertStock( icecream_id:number ){
+
+    queryExecutor( stock.insertStockQuery,
+                   [icecream_id,0],
+                   'Stock-I',
+                   databaseData=>readIcecream()
+                 )
+  }
+
+  function deleteIcecream(icecream_id:number){
+  
+    queryExecutor( icecream.deleteIcreamQuery,
+                   [icecream_id],
+                   'Icecream-D',
+                   databaseData=>readIcecream()
                  )
   }
 
@@ -39,11 +61,12 @@ export default function IcecreamScreen() {
 
     queryExecutor( icecream.insertIcecreamQuery,
                    [ icecream_name,
+                     true,
                      per_piece_price,
                      per_box_piece,
                      supplier_commission ],
                    'Icecream-I',
-                   databaseData=>readIcecream()
+                   databaseData=>insertStock(databaseData.insertId)
                  )
   }
 
@@ -67,6 +90,7 @@ export default function IcecreamScreen() {
           :
         <IcecreamContainer
           icecreamListData={icecreamList}
+          deleteCallBack  ={ (id:number)=>deleteIcecream(id) }
         />
       }
 

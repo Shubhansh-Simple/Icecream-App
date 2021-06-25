@@ -1,4 +1,4 @@
-import React,{useState,useEffect}  from 'react';
+import React,{ useState, useEffect }  from 'react';
 
 import { View } from 'react-native';
 
@@ -12,11 +12,9 @@ import Icon          from '../Components/Buttons/Icon';
 import CurrentStockContainer 
                from '../Components/FlatLists/CurrentStock/CurrentStockContainer';
 
-import {extractId}      from '../CleanCode/CleanFunction';
-
 // DATABASE
 import queryExecutor    from '../Database/StarterFunction';
-import {stock,icecream}          from '../Database/Queries';
+import {stock}          from '../Database/Queries';
 
 
 export default function CurrentStockScreen({navigation}) {
@@ -31,35 +29,33 @@ export default function CurrentStockScreen({navigation}) {
     queryExecutor( stock.readStockQuery,
                    null,
                    'Stock-R',
-                   databaseData=>setCurrentStockList(databaseData)
-
+                   databaseData=>setCurrentStockList(databaseData.rows._array)
                  )
   }
 
-  function insertStock( icecreamId   :number, 
-                        per_box_piece:number,
-                        quantity     :number, 
-                        isPiece      :boolean 
+  function insertStock( stock_id      :number, 
+                        per_box_piece :number,
+                        quantity      :number, 
+                        isPiece       :boolean 
                       ){
   /*
    *INSERT STOCK
    */
-    console.log('Is piece - ',isPiece)
-    let new_quantiy = ( !isPiece ?  quantity*per_box_piece : quantity )
+    let new_quantity = ( !isPiece ?  quantity*per_box_piece : quantity )
 
-    queryExecutor( stock.insertStockQuery,
-                   [ icecreamId, new_quantiy ],
-                   'Stock-I',
+    queryExecutor( stock.updateStockQuery,
+                   [new_quantity,stock_id],
+                   'Stock-U',
                    databaseData=>readStock()
                  )
   }
   
   function deleteStock( id:number ){
   /*
-   *DELETE STOCK
+   *DELETE STOCK, set total_piece=0
    */
     queryExecutor( stock.deleteStockQuery,
-                   [ id ],
+                   [id],
                    'Stock-D',
                    databaseData=>readStock()
                  )
@@ -83,17 +79,20 @@ export default function CurrentStockScreen({navigation}) {
 
       {/* ICECREAM INPUT MODAL */}
       <IcecreamInput
-        title            ='Add Stock'
-        description      ='Choose icecream & quantities'
-        visible          ={icecreamInput}
-        setVisible       ={ (bool:boolean)=>setIcecreamInput(bool) }
-        filterQuery      ={ icecream.readMissingIcecreamQuery }
-        currentIcecreamId={ extractId(currentStockList) }           //calling func.
-
-        submitData ={ (item,quantity,bool)=>insertStock( +item.icecreamId,
-                                                         +item.per_box_piece,
-                                                         +quantity,
-                                                         bool )
+        title         ='Add Icecream To Stock'
+        description   ='Choose icecreams & their quantities'
+        visible       ={ icecreamInput }
+        setVisible    ={ (bool:boolean)=>setIcecreamInput(bool) }
+        submitBtnTitle='  Add  '
+        query         ={ stock.readStockQuery } 
+        submitData    ={ ( selectedIcecream,  
+                           icecreamQuantity, 
+                           isPiece 
+                         )=>insertStock( selectedIcecream.stock_id,
+                                          selectedIcecream.per_box_piece,
+                                          icecreamQuantity,
+                                          isPiece 
+                                        )
         }
       />
 

@@ -14,7 +14,6 @@ import IcecreamScreen      from './src/Screens/IcecreamScreen';
 // DATABASE GLOBAL INSTANCE
 global.db = SQLite.openDatabase('ShopDatabase.db')
 
-
 /*
  * TAB AND STACK
  * Navigation Configuration 
@@ -94,9 +93,9 @@ export default () => {
           },
         }}
 	  >
-        <Tab.Screen name='Home'         component={ HomeStackScreen } />
-        <Tab.Screen name='Stocks' component={ CurrentStockStackScreen } />
-        <Tab.Screen name='Icecream'     component={ IcecreamStackScreen } />
+        <Tab.Screen name='Sales'         component={ HomeStackScreen } />
+        <Tab.Screen name='Current Stock' component={ CurrentStockStackScreen } />
+        <Tab.Screen name='Icecreams'     component={ IcecreamStackScreen } />
       </Tab.Navigator>
 
     </NavigationContainer>

@@ -1,4 +1,8 @@
-//import React from 'react';
+/*
+ * FUNCTION START
+ * AT STARTING OF THE APPLICATION
+ */
+
 import {icecream,stock} from './Queries';
 
 export default function queryExecutor( sqlQuery:string, 
@@ -16,7 +20,7 @@ export default function queryExecutor( sqlQuery:string,
       tx.executeSql(
         sqlQuery,
         argument,
-        (_,{ rows:{_array} }) => {
+        ( _,_array ) => {
 
             console.log('Success in',table_name,'table') 
             if ( typeof callBack === 'function' ){ 

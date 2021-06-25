@@ -10,7 +10,7 @@ import { View,
 import IcecreamItem   from './IcecreamItem';
 import commonStyle    from '../../../Styles/commonStyle';
 
-export default function IcecreamContainer({ icecreamListData }){
+export default function IcecreamContainer({ icecreamListData, deleteCallBack }){
   return(
     <View style={commonStyle.screenContainer}>
 
@@ -21,10 +21,12 @@ export default function IcecreamContainer({ icecreamListData }){
         renderItem  ={ (el)=>{
           return(
             <IcecreamItem 
+              icecream_id     ={el.item.id}
               icecream_name   ={el.item.icecream_name}
               per_piece_price ={el.item.per_piece_price}
               per_box_piece   ={el.item.per_box_piece}
               supplier_commission={el.item.supplier_commission}
+              deleteCallBack  ={(id:number)=>deleteCallBack(id)}
             />
           ) 
         }}

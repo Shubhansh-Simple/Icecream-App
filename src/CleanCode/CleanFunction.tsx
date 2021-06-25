@@ -21,6 +21,7 @@ export function iconReturn(bool:boolean){
   )
 }
 
+
 /*
  * RETURN ID'S ARRAY
  * FROM ICECREAM LIST
@@ -48,6 +49,24 @@ export function queryMaker( query1:string,
     query1+query2.toString()+query3
       :
     query1+query3
+  )
+}
+
+export function redBlackChoice(data:number){
+  return (
+    data
+      ?
+    {
+     'color'     :'#393b39',
+     'fontSize'  : 13,
+     'fontWeight': 'bold'
+    }
+      :
+    {
+      color     :'red',
+      fontSize  : 13,
+      fontWeight: 'bold'
+    }
   )
 }
 

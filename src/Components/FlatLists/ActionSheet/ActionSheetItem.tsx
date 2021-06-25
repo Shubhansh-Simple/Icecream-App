@@ -6,9 +6,11 @@ import { View,
          StyleSheet } from 'react-native';
 
 // LOCAL
-import StraightLine from '../../StraightLine';
+import StraightLine     from '../../StraightLine';
+import {redBlackChoice}  from '../../../CleanCode/CleanFunction';
 
-export default function IcecreamItem({ icecreamId, 
+export default function IcecreamItem({ stockId, 
+                                       icecreamId, 
                                        icecreamName, 
                                        perPiecePrice, 
                                        perBoxPiece,
@@ -16,45 +18,46 @@ export default function IcecreamItem({ icecreamId,
                                        callBack
                                     }){
 
-  function icecreamNameSetter( icecreamId   : number,
-                               icecreamName : string,
-                               perPiecePrice: number, 
-                               perBoxPiece  : number,
-                             ){
+  function icecreamNameSetter(){
      return {
-       'icecreamId'   : icecreamId,
-       'icecreamName' : icecreamName + ' ' + perPiecePrice.toString() + 'rs',
-       'per_box_piece': perBoxPiece,
+         'icecream_id'    : icecreamId,
+         'icecream_name'  : icecreamName + ' ' + perPiecePrice.toString() + 'rs',
+         'per_piece_price': perPiecePrice,
+         'per_box_piece'  : perBoxPiece,
+       }
      }
-  }
+  
+    function icecreamStockSetter(){
+      return {
+        'stock_id'   : stockId,
+        'total_piece': totalPiece,
+        'icecream'   : icecreamNameSetter()
+      }  
+    }
 
   return(
     <TouchableOpacity
-      onPress={ ()=>callBack( icecreamNameSetter( icecreamId,
-                                                  icecreamName,
-                                                  perPiecePrice,
-                                                  perBoxPiece,
-                                                ))
-    }>
+      onPress={ ()=>callBack( icecreamStockSetter() )
+     }>
       <View style={ styles.itemContainer }>
+
         <View style={{ flex : 2 }}>
           <Text style={styles.flatlistItem}>
             {icecreamName} 
           </Text>
         </View>
+
         <View style={{ flex : 1 }}>
           <Text style={styles.flatlistItem}>
             {perPiecePrice} Rs
           </Text>
         </View>
 
-        { totalPiece &&
         <View style={{ flex : 1, justifyContent : 'center'}}>
-            <Text style={[styles.flatlistItem, styles.pieceLeftStyle ]}>
+            <Text style={[styles.flatlistItem, redBlackChoice(totalPiece) ]}>
               {totalPiece} left
             </Text>
-          </View>
-        }
+        </View>
 
       </View>
       {/* St. Line */}

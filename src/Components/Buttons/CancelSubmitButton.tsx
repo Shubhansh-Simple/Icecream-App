@@ -13,7 +13,8 @@ import VerticalLine   from '../VerticalLine';
 import IosInputButton from '../IosInputButton';
 import commonStyle    from '../../Styles/commonStyle';
 
-export default function CancelSubmitButton({ submitCallBack,
+export default function CancelSubmitButton({ submitBtnTitle,
+                                             submitCallBack,
                                              cancelCallBack 
                                           }){
   return (
@@ -28,7 +29,7 @@ export default function CancelSubmitButton({ submitCallBack,
       {/* HORIZONTAL LINE CONTAINER */}
       <View style={ commonStyle.lineContainer }>
         <IosInputButton
-          btnText='Submit'
+          btnText={ submitBtnTitle ? submitBtnTitle : 'Submit' }
           btnColor='#2699ff'
           callBack={submitCallBack}
         />

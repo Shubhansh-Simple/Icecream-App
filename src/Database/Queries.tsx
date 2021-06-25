@@ -6,24 +6,25 @@
 export const icecream = {
 
   createIcecreamQuery : 'CREATE TABLE IF NOT EXISTS "Icecream" ('+
-    '"id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, '+
-    '"icecream_name" varchar(15) NOT NULL, '+
-    '"is_active" bool NOT NULL , '+
+                        '"id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, '+
+                        '"icecream_name" varchar(15) NOT NULL, '+
+                        '"is_active" bool NOT NULL , '+
 
-    '"per_piece_price" smallint unsigned NOT NULL CHECK '+
-      '("per_piece_price" >= 0),'+
+                        '"per_piece_price" smallint unsigned NOT NULL CHECK '+
+                          '("per_piece_price" >= 0),'+
 
-    '"per_box_piece" smallint unsigned NOT NULL CHECK '+
-      '("per_box_piece" >= 0),'+
+                        '"per_box_piece" smallint unsigned NOT NULL CHECK '+
+                          '("per_box_piece" >= 0),'+
 
-    '"supplier_commission" smallint unsigned NOT NULL CHECK '+
-      '("supplier_commission" >= 0));',
+                        '"supplier_commission" smallint unsigned NOT NULL CHECK '+
+                        '("supplier_commission" >= 0));',
 
   insertIcecreamQuery : 'INSERT INTO Icecream( icecream_name, '+
+                                               'is_active, '+
                                                'per_piece_price, '+
                                                'per_box_piece, '+
                                                'supplier_commission ) '+
-                                               'VALUES(?,?,?,?);',
+                                               'VALUES(?,?,?,?,?);',
 
   readIcecreamQuery : 'SELECT * FROM Icecream ORDER BY per_piece_price ;',
 
@@ -54,26 +55,30 @@ export const stock = {
                    'per_piece_price, per_box_piece '+
                    'FROM STOCK JOIN ICECREAM ON '+
                    'Stock.icecream_id=Icecream.id '+
-                   'WHERE total_piece > 0 '+
                    'ORDER BY per_piece_price;',
 
-  // ALIAS ICECREAM_ID TO ID
-  readStockIcecreamQuery : 'SELECT STOCK.icecream_id AS id , '+
-                           ' icecream_name, total_piece, '+
-                           'per_piece_price, per_box_piece '+
-                           'FROM STOCK JOIN ICECREAM ON '+
-                           'Stock.icecream_id=Icecream.id '+
-                           'WHERE total_piece > 0 ',
+  readConditionStockQuery : 'SELECT STOCK.ID, icecream_id, ' +
+                            'icecream_name, total_piece, '   +
+                            'per_piece_price, per_box_piece '+
+                            'FROM STOCK JOIN ICECREAM ON '   +
+                            'Stock.icecream_id=Icecream.id ' +
+                            'WHERE total_piece>0 '+
+                            'ORDER BY per_piece_price; ',
+
 
   // -quantity for decrement
   // +quantity for increment
-  decrementStockQuery : 'UPDATE STOCK SET total_piece = total_piece + ? '+
-                        'WHERE icecream_id=?',
 
   insertStockQuery : 'INSERT INTO Stock( icecream_id, total_piece ) '+
                      'VALUES(?,?); ',
 
-  deleteStockQuery : 'DELETE FROM STOCK WHERE id=?;',
+  // -quantity for decrement
+  // +quantity for increment
+  updateStockQuery : 'UPDATE STOCK SET total_piece = total_piece + ? '+
+                     'WHERE id=? ;',
+
+  deleteStockQuery : 'UPDATE STOCK SET total_piece=0 WHERE id=? ;',
+
 }
 
 
