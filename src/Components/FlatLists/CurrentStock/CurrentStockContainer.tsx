@@ -9,7 +9,7 @@ import { View,
          FlatList } from 'react-native';
 
 import CurrentStockItem from './CurrentStockItem';
-import commonStyle from '../../../Styles/commonStyle';
+import commonStyle      from '../../../Styles/commonStyle';
 
 export default function CurrentStockContainer({ currentStockList,
                                                 deleteCallBack
@@ -23,14 +23,20 @@ export default function CurrentStockContainer({ currentStockList,
         showsVerticalScrollIndicator={false}
         renderItem   ={ (el)=>{
           return(
-            <CurrentStockItem
-              stock_id       ={ el.item.id }
-              icecream_name  ={ el.item.icecream_name}
-              per_piece_price={ el.item.per_piece_price}
-              per_box_piece  ={ el.item.per_box_piece}
-              total_piece    ={ el.item.total_piece}
-              deleteCallBack ={ (id:number)=>deleteCallBack(id)}
-            />
+            <View>
+            { el.item.total_piece ?
+              <CurrentStockItem
+                stock_id       ={ el.item.id }
+                icecream_name  ={ el.item.icecream_name}
+                per_piece_price={ el.item.per_piece_price}
+                per_box_piece  ={ el.item.per_box_piece}
+                total_piece    ={ el.item.total_piece}
+                deleteCallBack ={ (id:number)=>deleteCallBack(id)}
+              />
+                :
+              null
+            }
+            </View>
           )}
         }
       />

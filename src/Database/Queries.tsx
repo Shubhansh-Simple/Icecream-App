@@ -45,29 +45,27 @@ export const icecream = {
 
 export const stock = {
 
-  createStockQuery : 'CREATE TABLE IF NOT EXISTS "Stock" (' +
-    '"id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, '+
+  createStockQuery : 'CREATE TABLE IF NOT EXISTS "Stock" ('                +
+    '"id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, '                    +
     '"total_piece" smallint unsigned NOT NULL CHECK ("total_piece" >= 0), '+
     '"icecream_id" integer NOT NULL UNIQUE REFERENCES "Icecream" '+
-      '("id") DEFERRABLE INITIALLY DEFERRED );',
+        '("id") DEFERRABLE INITIALLY DEFERRED );',
 
   readStockQuery : 'SELECT STOCK.ID, icecream_id, icecream_name, total_piece, '+
-                   'per_piece_price, per_box_piece '+
-                   'FROM STOCK JOIN ICECREAM ON '+
-                   'Stock.icecream_id=Icecream.id '+
+                   'per_piece_price, per_box_piece '                           +
+                   'FROM STOCK JOIN ICECREAM ON '                              +
+                   'Stock.icecream_id=Icecream.id '                            +
+                   'WHERE is_active=1 '                                        +
                    'ORDER BY per_piece_price;',
 
-  readConditionStockQuery : 'SELECT STOCK.ID, icecream_id, ' +
-                            'icecream_name, total_piece, '   +
-                            'per_piece_price, per_box_piece '+
-                            'FROM STOCK JOIN ICECREAM ON '   +
-                            'Stock.icecream_id=Icecream.id ' +
-                            'WHERE total_piece>0 '+
+  readConditionStockQuery : 'SELECT STOCK.ID, icecream_id, '      +
+                            'icecream_name, total_piece, '        +
+                            'per_piece_price, per_box_piece '     +
+                            'FROM STOCK JOIN ICECREAM ON '        +
+                            'Stock.icecream_id=Icecream.id '      +
+                            'WHERE total_piece>0 AND is_active=1 '+
                             'ORDER BY per_piece_price; ',
 
-
-  // -quantity for decrement
-  // +quantity for increment
 
   insertStockQuery : 'INSERT INTO Stock( icecream_id, total_piece ) '+
                      'VALUES(?,?); ',
@@ -81,7 +79,29 @@ export const stock = {
 
 }
 
+export const sale = {
+  
+  createSaleQuery : ' CREATE TABLE IF NOT EXISTS "Sale" ( '+
+        '"id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, '     +
+        '"sold_piece" smallint unsigned NOT NULL CHECK '        +
+              '("sold_piece" >= 0), '                           +
+        '"entry_date" date NOT NULL, '                          +
+        '"stock_id" integer NOT NULL REFERENCES "stock" ("id") '+
+              'DEFERRABLE INITIALLY DEFERRED ) ;',
 
+  readSaleQuery   : 'SELECT Sale.id, sold_piece, Sale.entry_date, '        +
+                    'icecream_name, per_piece_price, per_box_piece, '      +
+                    'is_active FROM SALE left JOIN '                       +
+            '(ICECREAM INNER JOIN STOCK ON ICECREAM.ID=STOCK.ICECREAM_ID) '+
+            'STOCK ON STOCK_ID=STOCK.ID '+
+            'GROUP BY Sale.entry_date;',
+
+ 
+
+  insertSaleQuery : 'INSERT INTO SALE ( sold_piece, entry_date, stock_id ) '+
+                    'VALUES( ?,?,?);',
+
+}
 
 
 

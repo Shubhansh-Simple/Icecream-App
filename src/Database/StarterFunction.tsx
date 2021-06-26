@@ -3,7 +3,7 @@
  * AT STARTING OF THE APPLICATION
  */
 
-import {icecream,stock} from './Queries';
+import {icecream,stock,sale} from './Queries';
 
 export default function queryExecutor( sqlQuery:string, 
                                        argument : null | Array<any>, 
@@ -48,4 +48,14 @@ export function createStock(){
                  false,
                )
 }
+
+export function createSale(){
+  queryExecutor( sale.createSaleQuery,
+                 null,
+                 'Sale-C',
+                 false,
+               )
+}
+
+
 

@@ -22,36 +22,6 @@ export function iconReturn(bool:boolean){
 }
 
 
-/*
- * RETURN ID'S ARRAY
- * FROM ICECREAM LIST
- * FOR CUSTOM QUERY
- */
-export function extractId(icecreamList){
-
-  let icecreamIdList = []
-
-  for (let eachIcecream of icecreamList){
-    icecreamIdList.push(eachIcecream.icecream_id)
-  }
-
-  let icecreamIdJoin = icecreamIdList.join(',')
-
-  return '('+icecreamIdJoin+') )'
-}
-
-export function queryMaker( query1:string, 
-                            query2:Number[], 
-                            query3:string 
-                          ){
-  return ( (query2.length) > 0
-      ?
-    query1+query2.toString()+query3
-      :
-    query1+query3
-  )
-}
-
 export function redBlackChoice(data:number){
   return (
     data
@@ -68,6 +38,19 @@ export function redBlackChoice(data:number){
       fontWeight: 'bold'
     }
   )
+}
+
+export function todayDate(){
+
+  let today = new Date()
+
+  let mm   = String( today.getMonth() + 1 ).padStart(2,'0');
+  let dd   = String( today.getDate() ).padStart(2,'0');
+  let yyyy = String( today.getFullYear() )
+
+  let final_today = yyyy + '-' + mm + '-' + dd;
+  return final_today
+
 }
 
 
