@@ -50,7 +50,59 @@ export function todayDate(){
 
   let final_today = yyyy + '-' + mm + '-' + dd;
   return final_today
+}
+
+export function getDates(data:Array<any>){
+  let dateList = []
+  let dataS = ''
+
+  for (let x of data) {
+    dateList.push(
+      '"'+String(x.entry_date)+'"'
+    )
+  }
+  dataS = dateList.join(', ')
+  return '( ' + dataS + ' );'
+}
+
+export function readySaleData(dataList){
+  let dataArray  = []
+  let dataObject = {}
+
+  for ( let data of dataList ){
+
+    let entry_date = data.entry_date
+
+    delete data.entry_date
+
+    dataArray.push(data) 
+
+    dataObject[ entry_date ] = dataArray
+  }
+
+  //console.log('Array making - ',dataObject)
+  return dataObject
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

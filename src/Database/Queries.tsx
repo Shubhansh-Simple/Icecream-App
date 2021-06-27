@@ -86,19 +86,18 @@ export const sale = {
         '"sold_piece" smallint unsigned NOT NULL CHECK '        +
               '("sold_piece" >= 0), '                           +
         '"entry_date" date NOT NULL, '                          +
-        '"stock_id" integer NOT NULL REFERENCES "stock" ("id") '+
+        '"icecream_id" integer NOT NULL REFERENCES "icecream" ("id") '+
               'DEFERRABLE INITIALLY DEFERRED ) ;',
 
-  readSaleQuery   : 'SELECT Sale.id, sold_piece, Sale.entry_date, '        +
-                    'icecream_name, per_piece_price, per_box_piece, '      +
-                    'is_active FROM SALE left JOIN '                       +
-            '(ICECREAM INNER JOIN STOCK ON ICECREAM.ID=STOCK.ICECREAM_ID) '+
-            'STOCK ON STOCK_ID=STOCK.ID '+
-            'GROUP BY Sale.entry_date;',
+  readSaleQuery   : 'SELECT Sale.id, sold_piece, entry_date, '        +
+                    'ICECREAM.icecream_name, ICECREAM.per_piece_price, '+
+                    'ICECREAM.per_box_piece, is_active '+
+                    'FROM SALE JOIN ICECREAM ON ICECREAM.ID=SALE.icecream_id '+
+                    'WHERE entry_date IN ',
 
- 
+  readSaleDatesQuery : 'SELECT DISTINCT entry_date FROM SALE LIMIT 10;', 
 
-  insertSaleQuery : 'INSERT INTO SALE ( sold_piece, entry_date, stock_id ) '+
+  insertSaleQuery : 'INSERT INTO SALE ( sold_piece, entry_date, icecream_id ) '+
                     'VALUES( ?,?,?);',
 
 }
