@@ -19,6 +19,9 @@ import commonStyle   from '../Styles/commonStyle';
 import Icon          from '../Components/Buttons/Icon';
 import NoDataFound   from '../Components/NoDataFound';
 
+import SaleStockContainer 
+                     from '../Components/FlatLists/SaleStock/SaleStockContainer';
+
 import { todayDate,  
          getDates,
          dataTypeConvertor }  from '../CleanCode/CleanFunction';
@@ -51,7 +54,7 @@ export default function SaleScreen() {
    */
   function readSale(datesList:string){
 
-    console.log('The value of dataList - ',datesList)
+    //console.log('The value of dataList - ',datesList)
     { datesList 
         &&
       queryExecutor( sale.readSaleQuery + datesList,
@@ -59,7 +62,7 @@ export default function SaleScreen() {
                      'Sale-R',
                      databaseData=>{
                        //console.log('State- ',databaseData.rows._array)
-                       dataTypeConvertor(databaseData.rows._array)
+                       setSaleList( dataTypeConvertor(databaseData.rows._array) )
                      }
                    )
     }
@@ -123,11 +126,6 @@ export default function SaleScreen() {
 
   },[saleDateContainer])
 
-  useEffect( ()=>{
-    { icecreamInput && readSalesDates() }
-  },[icecreamInput])
-
-
 
   return(
     <View style={styles.container}>
@@ -161,11 +159,10 @@ export default function SaleScreen() {
           callBack   ={ ()=>readSalesDates() }
         />
           :
-          null
-       //<SaleStockContainer
-       //  saleStockList={ saleList[ Object.keys(saleList) ] }
-       //  entry_date   ={ Object.keys(saleList) }
-       ///>
+       <SaleStockContainer
+         saleStockList={ saleList }
+       />
+       //null
       }
 
       {/* ICECREAM INPUT MODAL CALLER */}

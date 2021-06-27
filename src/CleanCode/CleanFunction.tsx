@@ -69,12 +69,12 @@ export function getDates(data:Array<any>){
  * CHECK WEATHER KEY EXIST
  * IN DICTIONARY OBJECT OR NOT
  */
-function keyChecker(finalList,key){
+function keyChecker(finalList, key:string){
 
   if ( finalList.length > 0){
     let itemIndex = 0
     for ( let eachItem of finalList ){
-      if ( eachItem.hasOwnProperty(key) ){
+      if ( eachItem.icecreamList[0] === key ){
         return itemIndex+1 
       }
       itemIndex++;
@@ -97,28 +97,33 @@ export function dataTypeConvertor(dataList){
 
     for ( let data of dataList ){
 
-      let temporaryList   : Array<any>|null  = []
-      let temporaryObject : object|null = {}
-      let entry_date      : String|null = String(data.entry_date)
+      let temporaryOuterList : Array<any>|null  = []
+      let temporaryInnerList : Array<any>|null  = []
+      let temporaryObject    : object|null = {}
+      let entry_date         : String|null = data.entry_date
       delete data.entry_date
 
-      let keyCheckerOuput = keyChecker(finalList,entry_date)  
-      console.log('The key checker output - ',keyCheckerOuput)
+      let keyCheckerOuput = keyChecker(finalList, entry_date)  
 
       // ENTRY DATE EXIST AS KEY
       if ( keyCheckerOuput ){
-        finalList[ Number(keyCheckerOuput)-1 ][entry_date].push(data)
+        finalList[ Number(keyCheckerOuput)-1 ].icecreamList[1].push(data)
       }
       else{
-        temporaryList.push(data)
-        temporaryObject[entry_date] = temporaryList
+        temporaryInnerList.push(data)
+        temporaryOuterList.push( entry_date, temporaryInnerList )
+
+        temporaryObject['icecreamList'] = temporaryOuterList
+
         finalList.push( temporaryObject )
       }
-      entry_date      = null
-      temporaryList   = null
-      temporaryObject = null
+      entry_date         = null
+      temporaryInnerList = null
+      temporaryObject    = null
+      temporaryOuterList = null
     }
-    console.log('The final list - ',finalList)
+    //console.log('The final list - ',finalList )
+    return finalList
   }
 }
 
