@@ -50,18 +50,13 @@ export default function SaleScreen() {
    */
   function readSale(datesList:string){
 
-    { 
-      datesList
-        &&
-      queryExecutor( sale.readSaleQuery + datesList,
-                     null,
-                     'Sale-R',
-                     databaseData=>{
-                       readSalesDates()
-                       console.log('State- ',databaseData.rows._array)
-                     }
-                   )
-    }
+    queryExecutor( sale.readSaleQuery + datesList,
+                   null,
+                   'Sale-R',
+                   databaseData=>{
+                     console.log('State- ',databaseData.rows._array)
+                   }
+                 )
   }
   /*
    * On Selling Icecream, 
@@ -74,7 +69,7 @@ export default function SaleScreen() {
     queryExecutor( stock.updateStockQuery,
                    [quantity, stock_id],
                    'Stock-U',
-                   databaseData=>readSale(saleDateContainer)
+                   databaseData=>readSalesDates()
                  )
   }
 
