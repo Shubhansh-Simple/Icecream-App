@@ -65,26 +65,62 @@ export function getDates(data:Array<any>){
   return '( ' + dataS + ' );'
 }
 
-export function readySaleData(dataList){
-  let dataArray  = []
-  let dataObject = {}
+/*
+ * CHECK WEATHER KEY EXIST
+ * IN DICTIONARY OBJECT OR NOT
+ */
+function keyChecker(finalList,key){
 
-  for ( let data of dataList ){
-
-    let entry_date = data.entry_date
-
-    delete data.entry_date
-
-    dataArray.push(data) 
-
-    dataObject[ entry_date ] = dataArray
+  if ( finalList.length > 0){
+    let itemIndex = 0
+    for ( let eachItem of finalList ){
+      if ( eachItem.hasOwnProperty(key) ){
+        return itemIndex+1 
+      }
+      itemIndex++;
+    }
+    return false
   }
-
-  //console.log('Array making - ',dataObject)
-  return dataObject
-
+  return false
 }
 
+/*
+ * CONVERT DATABASE DATA 
+ * AS PER FLATLIST PRESENTATION
+ * REQUIREMENT
+ */
+export function dataTypeConvertor(dataList){
+
+  var finalList : Array<Object> = []
+  
+  if ( dataList.length > 0 ){
+
+    for ( let data of dataList ){
+
+      let temporaryList   : Array<any>|null  = []
+      let temporaryObject : object|null = {}
+      let entry_date      : String|null = String(data.entry_date)
+      delete data.entry_date
+
+      let keyCheckerOuput = keyChecker(finalList,entry_date)  
+      console.log('The key checker output - ',keyCheckerOuput)
+
+      // ENTRY DATE EXIST AS KEY
+      if ( keyCheckerOuput ){
+        finalList[ Number(keyCheckerOuput)-1 ][entry_date].push(data)
+      }
+      else{
+        temporaryList.push(data)
+        temporaryObject[entry_date] = temporaryList
+        finalList.push( temporaryObject )
+      }
+      entry_date      = null
+      temporaryList   = null
+      temporaryObject = null
+    }
+    console.log('The final list - ',finalList)
+  }
+}
 
 
 

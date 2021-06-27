@@ -20,7 +20,8 @@ import Icon          from '../Components/Buttons/Icon';
 import NoDataFound   from '../Components/NoDataFound';
 
 import { todayDate,  
-         getDates }  from '../CleanCode/CleanFunction';
+         getDates,
+         dataTypeConvertor }  from '../CleanCode/CleanFunction';
 
 export default function SaleScreen() {
 
@@ -50,13 +51,18 @@ export default function SaleScreen() {
    */
   function readSale(datesList:string){
 
-    queryExecutor( sale.readSaleQuery + datesList,
-                   null,
-                   'Sale-R',
-                   databaseData=>{
-                     console.log('State- ',databaseData.rows._array)
-                   }
-                 )
+    console.log('The value of dataList - ',datesList)
+    { datesList 
+        &&
+      queryExecutor( sale.readSaleQuery + datesList,
+                     null,
+                     'Sale-R',
+                     databaseData=>{
+                       //console.log('State- ',databaseData.rows._array)
+                       dataTypeConvertor(databaseData.rows._array)
+                     }
+                   )
+    }
   }
   /*
    * On Selling Icecream, 
@@ -107,6 +113,7 @@ export default function SaleScreen() {
     readSalesDates()
   },[])
 
+
   /*
    * Whenever new dates comes
    * just re-read sale table
@@ -115,6 +122,11 @@ export default function SaleScreen() {
     readSale(saleDateContainer)
 
   },[saleDateContainer])
+
+  useEffect( ()=>{
+    { icecreamInput && readSalesDates() }
+  },[icecreamInput])
+
 
 
   return(
