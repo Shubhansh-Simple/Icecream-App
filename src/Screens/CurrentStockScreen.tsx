@@ -89,10 +89,10 @@ export default function CurrentStockScreen({navigation}) {
                            icecreamQuantity, 
                            isPiece 
                          )=>insertStock( selectedIcecream.stock_id,
-                                          selectedIcecream.per_box_piece,
-                                          icecreamQuantity,
-                                          isPiece 
-                                        )
+                                         selectedIcecream.icecream.per_box_piece,
+                                         icecreamQuantity,
+                                         isPiece 
+                                       )
         }
       />
 

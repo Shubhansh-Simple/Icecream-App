@@ -69,12 +69,12 @@ export function getDates(data:Array<any>){
  * CHECK WEATHER KEY EXIST
  * IN DICTIONARY OBJECT OR NOT
  */
-function keyChecker(finalList, key:string){
+function keyChecker(finalList, entry_date:string){
 
   if ( finalList.length > 0){
     let itemIndex = 0
     for ( let eachItem of finalList ){
-      if ( eachItem.icecreamList[0] === key ){
+      if ( eachItem.icecreamList[0] === entry_date){
         return itemIndex+1 
       }
       itemIndex++;
@@ -100,7 +100,7 @@ export function dataTypeConvertor(dataList){
       let temporaryOuterList : Array<any>|null  = []
       let temporaryInnerList : Array<any>|null  = []
       let temporaryObject    : object|null = {}
-      let entry_date         : String|null = data.entry_date
+      let entry_date   : String|null = new Date(data.entry_date).toDateString()
       delete data.entry_date
 
       let keyCheckerOuput = keyChecker(finalList, entry_date)  
@@ -123,7 +123,7 @@ export function dataTypeConvertor(dataList){
       temporaryOuterList = null
     }
     //console.log('The final list - ',finalList )
-    return finalList
+    return finalList.reverse()
   }
 }
 
