@@ -89,7 +89,7 @@ export const sale = {
         '"icecream_id" integer NOT NULL REFERENCES "icecream" ("id") '+
               'DEFERRABLE INITIALLY DEFERRED ) ;',
 
-  readSaleQuery   : 'SELECT Sale.id, sold_piece, entry_date, '        +
+  readSaleQuery   : 'SELECT Sale.id, sold_piece, entry_date, '+
                     'ICECREAM.icecream_name, ICECREAM.per_piece_price, '+
                     'ICECREAM.per_box_piece, is_active '+
                     'FROM SALE JOIN ICECREAM ON ICECREAM.ID=SALE.icecream_id '+

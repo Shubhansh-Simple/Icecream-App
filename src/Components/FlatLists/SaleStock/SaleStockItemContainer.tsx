@@ -3,7 +3,7 @@
  * Container
  */
 
-import React from 'react';
+import React,{useState} from 'react';
 
 import { View,
          Text,
@@ -12,10 +12,28 @@ import { View,
 
 import SaleStockItem from './SaleStockItem';
 import commonStyle   from '../../../Styles/commonStyle';
+import StraightLine  from '../../StraightLine';
 
 export default function SaleStockItemContainer({ entry_date, 
                                                  dateIcecreamList
                                               }){
+
+  const [ totalSoldPrice, setTotalSoldPrice ] = useState(0)
+  const [ totalSoldPiece, setTotalSoldPiece ] = useState(0)
+
+  /*
+   * TOTALLING OF SOLD PIECES
+   */
+  function incrementPieceState(data:number){
+    setTotalSoldPiece( totalSoldPiece=>totalSoldPiece+data )
+  }
+
+  /*
+   * TOTALLING OF SOLD PIECE'S PRICE 
+   */
+  function incrementPriceState(data:number){
+    setTotalSoldPrice( totalSoldPrice=>totalSoldPrice+data )
+  }
 
   return(
     <View style={[styles.saleScreenContainer, commonStyle.shadow ]}>
@@ -23,49 +41,112 @@ export default function SaleStockItemContainer({ entry_date,
         {entry_date}
       </Text>
 
-      <View style={{ flexDirection  : 'row',  
-                     justifyContent : 'space-between',
-                     paddingVertical: 5,
-                     paddingHorizontal : 10,
-                  }}>
-        <Text>Icecreams</Text>
-        <Text>Sale</Text>
+      <View style={ styles.billOutfitStyle }>
+        <View style={{ flex : 5, alignItems : 'flex-start' }}>
+          <Text style={styles.billHeadingStyle}>
+            Icecreams
+          </Text>
+        </View>
+
+
+        <View style={{ flex : 2 }}>
+          <Text style={styles.billHeadingStyle}>
+            Quantity
+          </Text>
+        </View>
+
+        <View style={{ flex : 2 , alignItems : 'flex-end'}}>
+          <Text style={styles.billHeadingStyle}>
+            Total
+          </Text>
+        </View>
       </View>
 
-      <FlatList
-        data         ={dateIcecreamList}
-        keyExtractor ={ item=>item.id.toString() }
-        showsVerticalScrollIndicator={false}
-        renderItem   ={ (el)=>{
-          return(
-            <SaleStockItem
-              sale_id        ={el.item.id}
-              icecream_name  ={el.item.icecream_name}
-              per_box_piece  ={el.item.per_box_piece}
-              per_piece_price={el.item.per_piece_price}
-              sold_piece     ={el.item.sold_piece}
-              is_active      ={el.item.is_active}
-            />
-          )}
-        }
-      />
+      <StraightLine width={1} color='black' />
+
+      <View style={ styles.billStartStyle }>
+
+        {/* ICECREAM LISTING PER DATE */}
+        <FlatList
+          data         ={dateIcecreamList}
+          keyExtractor ={ item=>item.id.toString() }
+          showsVerticalScrollIndicator={false}
+          renderItem   ={ (el)=>{
+            return(
+              <SaleStockItem
+                sale_id        ={el.item.id}
+                icecream_name  ={el.item.icecream_name}
+                per_box_piece  ={el.item.per_box_piece}
+                per_piece_price={el.item.per_piece_price}
+                sold_piece     ={el.item.sold_piece}
+                is_active      ={el.item.is_active}
+                totallingPiece ={ (totalPiece:number)=>incrementPieceState(
+                                                            totalPiece
+                                                       )}
+                totallingPrice ={ (totalPrice:number)=>incrementPriceState(
+                                                            totalPrice
+                                                       )}
+              />
+            )}
+          }
+        />
+
+        <View style={[ styles.billOutfitStyle, 
+                      {backgroundColor : '#393b39'} ]}>
+        
+          <View style={{ flex : 5 , alignItems : 'flex-start'}}>
+            <Text style={ styles.totalStyle } >Total</Text>
+          </View>
+
+          <View style={{ flex : 2 }}>
+            <Text style={ styles.totalStyle } >{totalSoldPiece} Piece</Text>
+          </View>
+
+          <View style={{ flex : 2 , alignItems : 'flex-end'}}>
+            <Text style={ styles.totalStyle } >{totalSoldPrice} Rs</Text>
+          </View>
+        </View>
+
+      </View>
     </View>
   )
 };
 const styles = StyleSheet.create({
+
   saleScreenContainer : {
     marginVertical : 10,
     backgroundColor: 'white',
+    borderWidth : 1,
+    borderColor : '#CACACA',
   },
-  soldItemContainer : {
-    flexDirection  : 'row',
-    alignSelf : 'stretch',
-    justifyContent : 'space-between'
+
+  billOutfitStyle : { 
+    flexDirection  : 'row',  
+    justifyContent : 'space-between',
+    paddingVertical: 5,
+    paddingHorizontal : 15,
   },
+
   salesDateStyle : {
     fontSize : 25,
     textAlign : 'center',
+    color : '#393b39',
   },
+
+  billHeadingStyle : {
+    fontSize : 13,
+    fontStyle : 'italic',
+  },
+
+  billStartStyle : {
+    paddingVertical : 9,
+  },
+
+  totalStyle : {
+    fontStyle : 'italic',
+    color : 'white',
+  },
+  
 })
 
 

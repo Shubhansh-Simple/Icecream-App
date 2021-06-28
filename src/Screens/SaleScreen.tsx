@@ -42,9 +42,10 @@ export default function SaleScreen() {
     queryExecutor( sale.readSaleDatesQuery,
                    null,
                    'SaleDate-R',
-                   databaseData=>setSaleDateContainer( 
-                     getDates(databaseData.rows._array) 
-                   )
+                   databaseData=>{setSaleDateContainer( 
+                        getDates(databaseData.rows._array) 
+                      )
+                   }
                  )
   }
 
@@ -57,7 +58,7 @@ export default function SaleScreen() {
     //console.log('The value of dataList - ',datesList)
     { datesList 
         &&
-      queryExecutor( sale.readSaleQuery + datesList,
+      queryExecutor( sale.readSaleQuery+datesList,
                      null,
                      'Sale-R',
                      databaseData=>{
@@ -78,7 +79,7 @@ export default function SaleScreen() {
     queryExecutor( stock.updateStockQuery,
                    [quantity, stock_id],
                    'Stock-U',
-                   databaseData=>readSalesDates()
+                   databaseData=>{false}
                  )
   }
 
@@ -99,9 +100,11 @@ export default function SaleScreen() {
                      date, 
                      selectedIcecream.icecream.icecream_id ], 
                    'Sale-I',
-                   databaseData=>insertStock( selectedIcecream.stock_id,
-                                              -new_quantity,
-                                            )
+                   databaseData=>{ insertStock( selectedIcecream.stock_id,
+                                                -new_quantity,
+                                              )
+                                   readSale(saleDateContainer)
+                                 }
                  )
   }
 
@@ -122,8 +125,9 @@ export default function SaleScreen() {
    * just re-read sale table
    */
   useEffect( ()=>{
-    readSale(saleDateContainer)
-
+    { saleDateContainer && 
+      readSale(saleDateContainer)
+    }
   },[saleDateContainer])
 
 

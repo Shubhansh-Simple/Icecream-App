@@ -6,15 +6,17 @@
 import React from 'react';
 
 import { View,
-         Text,
          StyleSheet,
          FlatList } from 'react-native';
 
 import SaleStockItemContainer from './SaleStockItemContainer';
-import commonStyle   from '../../../Styles/commonStyle';
 
 export default function SaleStockContainer({ saleStockList }){
 
+  /*
+   * DATE WISE 
+   * ITERATION
+   */
   return(
     <View style={ styles.soldItemMainContainer }>
     <FlatList
