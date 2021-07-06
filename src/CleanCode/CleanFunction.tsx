@@ -40,6 +40,9 @@ export function redBlackChoice(data:number){
   )
 }
 
+/*
+ * Returns today's data
+ */
 export function todayDate(){
 
   let today = new Date()
@@ -100,7 +103,8 @@ export function dataTypeConvertor(dataList){
       let temporaryOuterList : Array<any>|null  = []
       let temporaryInnerList : Array<any>|null  = []
       let temporaryObject    : object|null = {}
-      let entry_date   : String|null = new Date(data.entry_date).toDateString()
+      let entry_date   : String|null = data.entry_date 
+                               //new Date(data.entry_date).toDateString()
       delete data.entry_date
 
       let keyCheckerOuput = keyChecker(finalList, entry_date)  

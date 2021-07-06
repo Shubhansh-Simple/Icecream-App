@@ -13,6 +13,7 @@ import { View,
 import SaleStockItem from './SaleStockItem';
 import commonStyle   from '../../../Styles/commonStyle';
 import StraightLine  from '../../StraightLine';
+import {dateFormat}  from '../../../CleanCode/CleanFunction';
 
 export default function SaleStockItemContainer({ entry_date, 
                                                  dateIcecreamList
@@ -38,7 +39,7 @@ export default function SaleStockItemContainer({ entry_date,
   return(
     <View style={[styles.saleScreenContainer, commonStyle.shadow ]}>
       <Text style={styles.salesDateStyle}>
-        {entry_date}
+        { dateFormat(entry_date) }
       </Text>
 
       <View style={ styles.billOutfitStyle }>
