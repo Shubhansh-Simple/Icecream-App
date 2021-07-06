@@ -24,13 +24,46 @@ import SaleStockContainer
 
 import { todayDate,  
          getDates,
-         dataTypeConvertor }  from '../CleanCode/CleanFunction';
+         dataTypeConvertor,
+         icecreamAlreadyExist }  from '../CleanCode/CleanFunction';
 
 export default function SaleScreen() {
 
   const [ saleList,    setSaleList]                 = useState([])
   const [ icecreamInput, setIcecreamInput ]         = useState(false)
   const [ saleDateContainer,setSaleDateContainer ] = useState('')
+
+  /*
+   * Check if icecream 
+   * already exist in 
+   * today's date
+   */
+  function callIcecreamAlreadyExist( selectedIcecream, 
+                                     icecreamQuantity, 
+                                     isPiece 
+                                   ){
+
+    let saleId = icecreamAlreadyExist( saleList[0].icecreamList,
+                                       selectedIcecream.icecream.icecream_id )
+    if ( saleId ){
+
+      console.log('Inside if ')
+      updateSale( selectedIcecream, 
+                  icecreamQuantity, 
+                  isPiece,
+                  saleId
+                )
+         }
+
+    else{
+      console.log('Inside else ')
+      insertSale( selectedIcecream,
+                  icecreamQuantity, 
+                  isPiece
+      )
+
+    }
+  }
 
 
   /*
@@ -62,7 +95,6 @@ export default function SaleScreen() {
                      null,
                      'Sale-R',
                      databaseData=>{
-                       //console.log('State- ',databaseData.rows._array)
                        setSaleList( dataTypeConvertor(databaseData.rows._array) )
                      }
                    )
@@ -109,8 +141,32 @@ export default function SaleScreen() {
   }
 
   /*
+   *INCREMENT SALE
+   */
+  function updateSale( selectedIcecream, 
+                       quantity : number,
+                       isPiece: boolean,
+                       saleId : number ){
+
+    // CODE REPEATITION
+    let per_box_piece = selectedIcecream.icecream.per_box_piece
+    let new_quantity  = ( !isPiece ?  quantity*per_box_piece : quantity )
+
+    queryExecutor( sale.updateSaleQuery,
+                   [ new_quantity, saleId ], 
+                   'Sale-U',
+                   databaseData=>{ insertStock( selectedIcecream.stock_id,
+                                                -new_quantity
+                                              )
+                                   readSale(saleDateContainer)
+                                 }
+                 )
+  }
+
+
+  /*
    * FIRST TIME
-   * CODE EXECUTE
+   * APP OPENS
    */
   useEffect( ()=>{
     createIcecream()
@@ -145,10 +201,10 @@ export default function SaleScreen() {
         submitData    ={ ( selectedIcecream,  
                            icecreamQuantity, 
                            isPiece 
-                         )=>insertSale( selectedIcecream,
-                                        icecreamQuantity, 
-                                        isPiece
-                                      )
+                         )=>callIcecreamAlreadyExist( selectedIcecream,
+                                                      icecreamQuantity,
+                                                      isPiece
+                                                    )
                        }
       />
 

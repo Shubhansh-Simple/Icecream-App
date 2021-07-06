@@ -89,13 +89,17 @@ export const sale = {
         '"icecream_id" integer NOT NULL REFERENCES "icecream" ("id") '+
               'DEFERRABLE INITIALLY DEFERRED ) ;',
 
-  readSaleQuery   : 'SELECT Sale.id, sold_piece, entry_date, '+
-                    'ICECREAM.icecream_name, ICECREAM.per_piece_price, '+
+  readSaleQuery   : 'SELECT Sale.id,  sold_piece, entry_date, '+
+                    'Sale.icecream_id, '+
+                    'ICECREAM.icecream_name, '+
+                    'ICECREAM.per_piece_price, '+
                     'ICECREAM.per_box_piece, is_active '+
                     'FROM SALE JOIN ICECREAM ON ICECREAM.ID=SALE.icecream_id '+
                     'WHERE entry_date IN ',
 
   readSaleDatesQuery : 'SELECT DISTINCT entry_date FROM SALE LIMIT 10;', 
+
+  updateSaleQuery : 'UPDATE SALE SET sold_piece = sold_piece + ? WHERE id=? ;',
 
   insertSaleQuery : 'INSERT INTO SALE ( sold_piece, entry_date, icecream_id ) '+
                     'VALUES( ?,?,?);',

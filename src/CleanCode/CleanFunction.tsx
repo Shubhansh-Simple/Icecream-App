@@ -55,6 +55,20 @@ export function todayDate(){
   return final_today
 }
 
+
+/*
+ * Return date in 
+ * good format.
+ */
+export function dateFormat(date:string){
+  return ( new Date(date).toDateString() )
+}
+
+
+/*
+ * Combining dates
+ * for sql query
+ */
 export function getDates(data:Array<any>){
   let dateList = []
   let dataS = ''
@@ -86,6 +100,7 @@ function keyChecker(finalList, entry_date:string){
   }
   return false
 }
+
 
 /*
  * CONVERT DATABASE DATA 
@@ -131,6 +146,27 @@ export function dataTypeConvertor(dataList){
   }
 }
 
+/*
+ * Check weather the 
+ * icecream already exist
+ * in SALE TABLE with today's date or not.
+ */
+export function icecreamAlreadyExist( todaySaleList, selectedIcecreamId:number ){
+
+  if ( todaySaleList[0] == todayDate() ){
+    for ( let x of todaySaleList[1] ){
+      if ( x.icecream_id == selectedIcecreamId ){
+        console.log('Data FOUND')
+        return x.id
+      }
+    }
+    return 0
+  }
+  else{
+    console.log('Date NOT FOUND.')
+    return 0
+  }
+}
 
 
 
