@@ -22,10 +22,12 @@ import NoDataFound   from '../Components/NoDataFound';
 import SaleStockContainer 
                      from '../Components/FlatLists/SaleStock/SaleStockContainer';
 
+// CUSTOM FUNCTION
 import { todayDate,  
          getDates,
          dataTypeConvertor,
-         icecreamAlreadyExist }  from '../CleanCode/CleanFunction';
+         icecreamAlreadyExist } from '../CleanCode/CleanFunction';
+import quantityConverter        from '../CleanCode/Sale/HelperFunction';
 
 export default function SaleScreen() {
 
@@ -45,24 +47,17 @@ export default function SaleScreen() {
 
     let saleId = icecreamAlreadyExist( saleList[0].icecreamList,
                                        selectedIcecream.icecream.icecream_id )
-    if ( saleId ){
 
-      console.log('Inside if ')
-      updateSale( selectedIcecream, 
-                  icecreamQuantity, 
-                  isPiece,
-                  saleId
-                )
-         }
-
-    else{
-      console.log('Inside else ')
-      insertSale( selectedIcecream,
-                  icecreamQuantity, 
-                  isPiece
-      )
-
+    let new_quantity = quantityConverter( selectedIcecream.icecream.per_box_piece,
+                                          icecreamQuantity,
+                                          isPiece )
+    { saleId > 0 
+       ?
+      updateSale( selectedIcecream, new_quantity, saleId )      
+        :
+      insertSale( selectedIcecream, new_quantity )
     }
+
   }
 
 
@@ -120,20 +115,17 @@ export default function SaleScreen() {
    *INSERT SALE
    */
   function insertSale( selectedIcecream, 
-                       quantity : number, 
-                       isPiece : boolean ){
+                       quantity : number ){
 
-    let per_box_piece = selectedIcecream.icecream.per_box_piece
     let date          = todayDate()
-    let new_quantity  = ( !isPiece ?  quantity*per_box_piece : quantity )
 
     queryExecutor( sale.insertSaleQuery,
-                   [ new_quantity, 
+                   [ quantity, 
                      date, 
                      selectedIcecream.icecream.icecream_id ], 
                    'Sale-I',
                    databaseData=>{ insertStock( selectedIcecream.stock_id,
-                                                -new_quantity,
+                                                -quantity,
                                               )
                                    readSale(saleDateContainer)
                                  }
@@ -145,18 +137,15 @@ export default function SaleScreen() {
    */
   function updateSale( selectedIcecream, 
                        quantity : number,
-                       isPiece: boolean,
                        saleId : number ){
 
-    // CODE REPEATITION
-    let per_box_piece = selectedIcecream.icecream.per_box_piece
-    let new_quantity  = ( !isPiece ?  quantity*per_box_piece : quantity )
+
 
     queryExecutor( sale.updateSaleQuery,
-                   [ new_quantity, saleId ], 
+                   [ quantity, saleId ], 
                    'Sale-U',
                    databaseData=>{ insertStock( selectedIcecream.stock_id,
-                                                -new_quantity
+                                                -quantity
                                               )
                                    readSale(saleDateContainer)
                                  }
@@ -222,7 +211,6 @@ export default function SaleScreen() {
        <SaleStockContainer
          saleStockList={ saleList }
        />
-       //null
       }
 
       {/* ICECREAM INPUT MODAL CALLER */}

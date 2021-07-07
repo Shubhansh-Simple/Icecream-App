@@ -90,7 +90,9 @@ function keyChecker(finalList, entry_date:string){
 
   if ( finalList.length > 0){
     let itemIndex = 0
+
     for ( let eachItem of finalList ){
+
       if ( eachItem.icecreamList[0] === entry_date){
         return itemIndex+1 
       }
