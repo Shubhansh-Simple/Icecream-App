@@ -3,6 +3,9 @@
  * CONTAINS ONLY FUNCTION 
  */
 
+import React from 'react'
+import { Text } from 'react-native';
+
 export function iconReturn(bool:boolean){
   return (
     bool
@@ -149,25 +152,14 @@ export function dataTypeConvertor(dataList){
 }
 
 /*
- * Check weather the 
- * icecream already exist
- * in SALE TABLE with today's date or not.
+ * Show sold item 
+ * in Box & Piece
+ * terms
  */
-export function icecreamAlreadyExist( todaySaleList, selectedIcecreamId:number ){
-
-  if ( todaySaleList[0] == todayDate() ){
-    for ( let x of todaySaleList[1] ){
-      if ( x.icecream_id == selectedIcecreamId ){
-        console.log('Data FOUND')
-        return x.id
-      }
-    }
-    return 0
-  }
-  else{
-    console.log('Date NOT FOUND.')
-    return 0
-  }
+export function unitDecider( quantity:number, unit:string ){
+  return (
+    quantity !=0 && <Text>{quantity} {unit}</Text>
+  ) 
 }
 
 

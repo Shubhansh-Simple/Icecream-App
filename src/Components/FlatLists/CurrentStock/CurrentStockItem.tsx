@@ -7,6 +7,8 @@ import { View,
 import Icon        from '../../Buttons/Icon';
 import commonStyle from '../../../Styles/commonStyle';
 
+import { unitDecider } from '../../../CleanCode/CleanFunction';
+
 export default function CurrentStockItem({ stock_id, 
                                            icecream_name,
                                            per_box_piece,
@@ -20,13 +22,6 @@ export default function CurrentStockItem({ stock_id,
 
   // Extract Remaining Pieces
   const total_pieces = total_piece % per_box_piece
-
-
-  function unitDecider( quantity:number, unit:string ){
-    return (
-      quantity !=0 && <Text>{quantity} {unit}</Text>
-    ) 
-  }
 
   return(
     <View style={ [styles.itemContainer]}>
