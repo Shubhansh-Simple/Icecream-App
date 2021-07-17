@@ -25,18 +25,20 @@ import SaleStockContainer
 // CUSTOM FUNCTION
 import { todayDate,  
          getDates,
-         dataTypeConvertor,
-         icecreamAlreadyExist } from '../CleanCode/CleanFunction';
-import quantityConverter        from '../CleanCode/Sale/HelperFunction';
+         dataTypeConvertor } from '../CleanCode/CleanFunction';
+
+import { quantityConverter,
+         icecreamAlreadyExist }  from '../CleanCode/Sale/HelperFunction';
 
 export default function SaleScreen() {
 
   const [ saleList,    setSaleList]                 = useState([])
   const [ icecreamInput, setIcecreamInput ]         = useState(false)
-  const [ saleDateContainer,setSaleDateContainer ] = useState('')
+  const [ saleDateContainer,setSaleDateContainer ]  = useState('')
 
   /*
-   * Check if icecream 
+   * Call method after 
+   * checking, if icecream 
    * already exist in 
    * today's date
    */
@@ -59,7 +61,6 @@ export default function SaleScreen() {
     }
 
   }
-
 
   /*
    * READ ONLY NON-REPEATED 
@@ -139,8 +140,6 @@ export default function SaleScreen() {
                        quantity : number,
                        saleId : number ){
 
-
-
     queryExecutor( sale.updateSaleQuery,
                    [ quantity, saleId ], 
                    'Sale-U',
@@ -152,7 +151,6 @@ export default function SaleScreen() {
                  )
   }
 
-
   /*
    * FIRST TIME
    * APP OPENS
@@ -162,6 +160,7 @@ export default function SaleScreen() {
     createStock()
     createSale()
     readSalesDates()
+    console.log('Today date - ',todayDate())
   },[])
 
 

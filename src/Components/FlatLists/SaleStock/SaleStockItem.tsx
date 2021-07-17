@@ -4,6 +4,8 @@ import { View,
          Text,
          StyleSheet } from 'react-native';
 
+import { unitDecider } from '../../../CleanCode/CleanFunction';
+
 export default function SaleStockItem({ sale_id, 
                                         icecream_name,
                                         per_box_piece,
@@ -13,6 +15,15 @@ export default function SaleStockItem({ sale_id,
                                         totallingPiece,
                                         totallingPrice,
                                      }){
+
+  // CODE REPEATITION
+  //
+  // Convert Piece into Boxes
+  const total_boxes  = Math.floor(sold_piece/per_box_piece) 
+
+  // Extract Remaining Pieces
+  const total_pieces = sold_piece % per_box_piece
+
   useEffect( ()=>{
     totallingPiece( sold_piece )
     totallingPrice( sold_piece * per_piece_price )
@@ -22,21 +33,28 @@ export default function SaleStockItem({ sale_id,
     <View style={styles.soldItemContainer}>
 
       <View style={{ flex : 3, alignItems : 'flex-start' }}>
-      <Text style={ styles.icecreamNameStyle }>
-        {icecream_name}
-        <Text style={ styles.unitStyle }>
-          {' '}({per_box_piece}nos x {per_piece_price}rs)
+        <Text style={ styles.icecreamNameStyle }>
+          {icecream_name}
+          <Text style={ styles.unitStyle }>
+            {'\n'}({per_box_piece}nos x {per_piece_price}rs)
+          </Text>
         </Text>
-      </Text>
       </View>
 
-      <View style={{ flex : 1 }}>
+      <View style={{ flex : 2, 
+                     justifyContent : 'center' }}>
         <Text style={ styles.soldPieceStyle}>
-          {sold_piece} Piece
+          <Text style={ styles.icecreamPropertyStyle }>
+            { unitDecider( total_boxes,'Box')   } 
+            {' '}
+            { unitDecider( total_pieces,'Piece') }
+          </Text>
         </Text>
       </View>
 
-      <View style={{ flex : 1 , alignItems : 'flex-end'}}>
+      <View style={{ flex : 1, 
+                     alignItems : 'flex-end', 
+                     justifyContent : 'center' }}>
         <Text style={ styles.soldPieceStyle }>
           {sold_piece*per_piece_price} Rs
         </Text>
@@ -48,8 +66,9 @@ export default function SaleStockItem({ sale_id,
 const styles = StyleSheet.create({
 
   unitStyle : {
-    fontSize  : 11,
+    fontSize  : 12,
     fontStyle : 'italic',
+    color     : '#fe5f55',  // orange
   },
 
   soldItemContainer : {
@@ -66,13 +85,19 @@ const styles = StyleSheet.create({
   },
 
   icecreamNameStyle : {
-    fontSize : 17,
+    fontSize : 18,
+    textAlignVertical : 'top',
     fontWeight : 'bold'
+  },
+
+  icecreamPropertyStyle : {
+    fontSize : 15,
+    fontStyle : 'italic',
   },
 
   soldPieceStyle : {
     fontWeight : 'bold',
-    fontSize : 13
+    fontSize : 14,
   },
 
 })

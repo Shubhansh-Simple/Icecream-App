@@ -63,8 +63,6 @@ export default function SaleStockItemContainer({ entry_date,
         </View>
       </View>
 
-      <StraightLine width={1} color='black' />
-
       <View style={ styles.billStartStyle }>
 
         {/* ICECREAM LISTING PER DATE */}
@@ -74,20 +72,26 @@ export default function SaleStockItemContainer({ entry_date,
           showsVerticalScrollIndicator={false}
           renderItem   ={ (el)=>{
             return(
-              <SaleStockItem
-                sale_id        ={el.item.id}
-                icecream_name  ={el.item.icecream_name}
-                per_box_piece  ={el.item.per_box_piece}
-                per_piece_price={el.item.per_piece_price}
-                sold_piece     ={el.item.sold_piece}
-                is_active      ={el.item.is_active}
-                totallingPiece ={ (totalPiece:number)=>incrementPieceState(
-                                                            totalPiece
-                                                       )}
-                totallingPrice ={ (totalPrice:number)=>incrementPriceState(
-                                                            totalPrice
-                                                       )}
-              />
+              <View>
+                <SaleStockItem
+                  sale_id        ={el.item.id}
+                  icecream_name  ={el.item.icecream_name}
+                  per_box_piece  ={el.item.per_box_piece}
+                  per_piece_price={el.item.per_piece_price}
+                  sold_piece     ={el.item.sold_piece}
+                  is_active      ={el.item.is_active}
+                  totallingPiece ={ (totalPiece:number)=>incrementPieceState(
+                                                              totalPiece
+                                                         )}
+                  totallingPrice ={ (totalPrice:number)=>incrementPriceState(
+                                                              totalPrice
+                                                         )}
+                />
+                <StraightLine width={1} color='#CACACA' />
+
+              </View>
+
+
             )}
           }
         />
@@ -124,7 +128,7 @@ const styles = StyleSheet.create({
   billOutfitStyle : { 
     flexDirection  : 'row',  
     justifyContent : 'space-between',
-    paddingVertical: 5,
+    paddingVertical: 5, 
     paddingHorizontal : 15,
   },
 
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
   },
 
   billHeadingStyle : {
-    fontSize : 13,
+    fontSize : 14,
     fontStyle : 'italic',
   },
 
