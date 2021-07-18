@@ -21,12 +21,21 @@ export default function SaleStockItemContainer({ entry_date,
 
   const [ totalSoldPrice, setTotalSoldPrice ] = useState(0)
   const [ totalSoldPiece, setTotalSoldPiece ] = useState(0)
+  const [ totalSoldBox,   setTotalSoldBox ] = useState(0)
 
   /*
    * TOTALLING OF SOLD PIECES
    */
   function incrementPieceState(data:number){
     setTotalSoldPiece( totalSoldPiece=>totalSoldPiece+data )
+  }
+
+  /*
+   * TOTALLING OF SOLD BOX
+   */
+
+  function incrementBoxState(data:number){
+    setTotalSoldBox( totalSoldBox=>totalSoldBox+data )
   }
 
   /*
@@ -86,11 +95,13 @@ export default function SaleStockItemContainer({ entry_date,
                   totallingPrice ={ (totalPrice:number)=>incrementPriceState(
                                                               totalPrice
                                                          )}
+                  totallingBox ={ (totalBox:number)=>incrementBoxState(
+                                                              totalBox
+                                                         )}
                 />
                 <StraightLine width={1} color='#CACACA' />
 
               </View>
-
 
             )}
           }
@@ -103,8 +114,10 @@ export default function SaleStockItemContainer({ entry_date,
             <Text style={ styles.totalStyle } >Total</Text>
           </View>
 
-          <View style={{ flex : 2 }}>
-            <Text style={ styles.totalStyle } >{totalSoldPiece} Piece</Text>
+          <View style={{ flex : 3 }}>
+            <Text style={ styles.totalStyle }>
+              {totalSoldBox} Box {totalSoldPiece} Piece
+            </Text>
           </View>
 
           <View style={{ flex : 2 , alignItems : 'flex-end'}}>

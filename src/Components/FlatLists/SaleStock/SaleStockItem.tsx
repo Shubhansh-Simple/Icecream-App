@@ -4,7 +4,11 @@ import { View,
          Text,
          StyleSheet } from 'react-native';
 
+// local
 import { unitDecider } from '../../../CleanCode/CleanFunction';
+
+// component
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 export default function SaleStockItem({ sale_id, 
                                         icecream_name,
@@ -13,6 +17,7 @@ export default function SaleStockItem({ sale_id,
                                         sold_piece,
                                         is_active,
                                         totallingPiece,
+                                        totallingBox,
                                         totallingPrice,
                                      }){
 
@@ -25,18 +30,32 @@ export default function SaleStockItem({ sale_id,
   const total_pieces = sold_piece % per_box_piece
 
   useEffect( ()=>{
-    totallingPiece( sold_piece )
+    totallingPiece( total_pieces )
     totallingPrice( sold_piece * per_piece_price )
+    totallingBox( total_boxes )
   },[sale_id])
 
   return(
     <View style={styles.soldItemContainer}>
 
-      <View style={{ flex : 3, alignItems : 'flex-start' }}>
+      <View style={{ flex : 3, 
+                     alignItems : 'flex-start' }}>
+
         <Text style={ styles.icecreamNameStyle }>
-          {icecream_name}
+          {
+            total_boxes > 0 
+              ? 
+		    <MaterialIcons 
+              name="check-circle" 
+              size={14} 
+              color="#1cc939" 
+            />
+              :
+            '   '
+          }
+            {icecream_name}
           <Text style={ styles.unitStyle }>
-            {'\n'}({per_box_piece}nos x {per_piece_price}rs)
+            {'\n'}{'     '}({per_box_piece}nos x {per_piece_price}rs)
           </Text>
         </Text>
       </View>
@@ -86,8 +105,11 @@ const styles = StyleSheet.create({
 
   icecreamNameStyle : {
     fontSize : 18,
-    textAlignVertical : 'top',
     fontWeight : 'bold'
+  },
+
+  icecreamHighlight : {
+    color : 'yellow',
   },
 
   icecreamPropertyStyle : {
