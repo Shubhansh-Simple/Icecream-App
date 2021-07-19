@@ -67,7 +67,7 @@ export default function SaleStockItemContainer({ entry_date,
 
         <View style={{ flex : 2 , alignItems : 'flex-end'}}>
           <Text style={styles.billHeadingStyle}>
-            Total
+            Totalling
           </Text>
         </View>
       </View>
@@ -114,14 +114,24 @@ export default function SaleStockItemContainer({ entry_date,
             <Text style={ styles.totalStyle } >Total</Text>
           </View>
 
-          <View style={{ flex : 3 }}>
+          <View style={{ flex : 4 }}>
             <Text style={ styles.totalStyle }>
-              {totalSoldBox} Box {totalSoldPiece} Piece
+              { totalSoldBox > 0
+                  && 
+                <Text>{totalSoldBox} Box</Text>
+              }
+              {' '}
+              { totalSoldPiece > 0 
+                  && 
+                <Text>{totalSoldPiece} Piece</Text>
+              }
             </Text>
           </View>
 
           <View style={{ flex : 2 , alignItems : 'flex-end'}}>
-            <Text style={ styles.totalStyle } >{totalSoldPrice} Rs</Text>
+            <Text style={ styles.totalStyle }>
+              {totalSoldPrice} Rs
+            </Text>
           </View>
         </View>
 
@@ -163,6 +173,7 @@ const styles = StyleSheet.create({
   totalStyle : {
     fontStyle : 'italic',
     color : 'white',
+    fontWeight : 'bold'
   },
   
 })

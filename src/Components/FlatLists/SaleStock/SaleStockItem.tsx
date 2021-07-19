@@ -46,9 +46,9 @@ export default function SaleStockItem({ sale_id,
             total_boxes > 0 
               ? 
 		    <MaterialIcons 
-              name="check-circle" 
+              name='check-circle' 
               size={14} 
-              color="#1cc939" 
+              color='#1cc939' 
             />
               :
             '   '
